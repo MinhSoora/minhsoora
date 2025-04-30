@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinhSoora (GLapp)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #181818;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background-color: #fffbe9;
+            color: #333;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .profile-photo {
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .profile-photo img:hover {
+            transform: scale(1.05);
+        }
+        
+        .profile-info {
+            padding: 25px;
+            position: relative;
+        }
+        
+        .name-container {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .name {
+            font-size: 28px;
+            font-weight: 600;
+            background-image: linear-gradient(90deg, #4284db, #ff69b4, #4284db);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: gradientFlow 3s linear infinite;
+            position: relative;
+            display: inline-block;
+        }
+        
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        
+        .name::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4284db, #ff69b4);
+            transform-origin: right;
+            animation: underlineEffect 3s ease infinite;
+        }
+        
+        @keyframes underlineEffect {
+            0%, 100% {
+                transform: scaleX(0.3);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scaleX(1);
+                opacity: 1;
+            }
+        }
+        
+        .info-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+            transition: transform 0.3s;
+            padding: 5px;
+            border-radius: 8px;
+        }
+        
+        .info-item:hover {
+            transform: translateX(10px);
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .info-label {
+            color: #888;
+            margin-right: 5px;
+        }
+        
+        .hidden-birthday {
+            cursor: pointer;
+        }
+        
+        .birthday-reveal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            flex-direction: column;
+            transition: all 0.5s ease;
+        }
+        
+        .birthday-content {
+            color: white;
+            font-size: 36px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .birthday-numbers {
+            font-size: 48px;
+            margin: 20px 0;
+            height: 60px;
+            overflow: hidden;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .confirmation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 998;
+        }
+        
+        .confirmation-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: #333;
+            max-width: 90%;
+            width: 350px;
+        }
+        
+        .confirmation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .confirmation-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .yes-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .no-button {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .confirmation-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .divider {
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .divider .line {
+            flex-grow: 1;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ccc, transparent);
+        }
+        
+        .social-links {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-button i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .instagram {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+        
+        .facebook {
+            background-color: #3b5998;
+        }
+        
+        .tiktok {
+            background: linear-gradient(45deg, #000000, #3e3e3e);
+        }
+        
+        .roblox {
+            background-color: #e2231a;
+        }
+        
+        .youtube {
+            background-color: #ff0000;
+        }
+        
+        .twitter {
+            background-color: #000000;
+        }
+        
+        .discord {
+            background-color: #0000FF;
+        }
+        
+        .favorite {
+            background: linear-gradient(45deg, #FFC107, #FF9800);
+        }
+        
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+        }
+        
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            color: white;
+            z-index: 100;
+        }
+        
+        .music-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .music-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .music-button:hover {
+            transform: scale(1.2);
+        }
+        
+        .music-title {
+            margin-right: 15px;
+            font-size: 14px;
+        }
+        
+        .volume-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+            text-align: center;
+        }
+        
+        .volume-popup .key {
+            display: inline-block;
+            background-color: #333;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 0 5px;
+            font-weight: bold;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        @media (max-width: 500px) {
+            .profile-photo {
+                height: 300px;
+            }
+            
+            .name {
+                font-size: 24px;
+            }
+            
+            .music-player {
+                bottom: 10px;
+                right: 10px;
+                padding: 5px;
+            }
+            
+            .music-title {
+                font-size: 12px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-photo">
+            <img src="avatar.png" alt="Profile photo">
+        </div>
+        
+        <div class="profile-info">
+            <div class="name-container">
+                <h1 class="name">MinhSoora đâyy</h1>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Hellooo mọi người nha,</span> chúc mọi người có 1 ngày tốt lành nhaa
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Mình tên:</span> Cao Nguyễn Gia Lập
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Các bạn có thể gọi mình là:</span> MinhSoora (Minh)
+            </div>
+            
+            <div class="info-item hidden-birthday">
+                <span class="info-label">Tui sinh:</span> <span class="birthday-placeholder">*****</span>
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Tui đến từ:</span> Ninh Kiều, Cần Thơ, Việt Nam
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Trường đang học:</span> THCS Lương Thế Vinh (Cơ sở 2 - Trường Cao Đẳng GTVT Trung Ương 6)
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Mình thích:</span> Matcha Late - Chơi game - Trò chuyện:D
+            </div>
+            
+            <div class="info-item">
+                <span class="info-label">Mình chơi nhìu game lắm àaa:</span> Minecraft, Roblox, PUBG Mobile, Liên Quân Mobile, Osu!, ...
+            </div>
+            
+            <div class="divider">
+                <div class="line"></div>
+            </div>
+            
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/1BbvUQvbFm/" class="social-button facebook">
+                    <i class="fab fa-facebook"></i> Face bút của mình
+                </a>
+                
+                <a href="https://tiktok.com/@minhsoora" class="social-button tiktok">
+                    <i class="fab fa-tiktok"></i> TopTop của toi
+                </a>
+                
+                <a href="https://youtube.com/@minhsoora?si=G3FTQzIv4b--yCFd" class="social-button youtube">
+                   <i class="fab fa-youtube" aria-hidden="true"></i> Youtube của mìnhh
+                </a>
+                <a href="https://x.com/MinhSoora?t=S0diVq66Rm6ecrm_tRiCbA&s=09" class="social-button twitter">
+                   <i class="fab fa-twitter" aria-hidden="true"></i> Twitterrrrrrrr (X)
+                </a>
+                <a href="https://dsc.gg/marus" class="social-button discord">
+                   <i class="fab fa-discord" aria-hidden="true"></i> Giao lưu cùng toi trên Discord nè
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="confirmation-overlay">
+        <div class="confirmation-box">
+            <h3>Bạn có muốn xem ngày sinh của mình không?</h3>
+            <p>Đây là thông tin quan trọng đó nhaaaaa!</p>
+            <div class="confirmation-buttons">
+                <button class="confirmation-button yes-button">Có</button>
+                <button class="confirmation-button no-button">Không</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="birthday-reveal-overlay">
+        <div class="close-button">&times;</div>
+        <div class="birthday-content">
+            <div>Sinh nhật của tui là</div>
+            <div class="birthday-numbers">22/08/2010</div>
+            <div class="age"></div>
+        </div>
+    </div>
+    
+    <div class="music-player">
+        <div class="music-title">Đang phát: Stay with me - 1nonly (No Vocal)</div>
+        <div class="music-controls">
+            <button class="music-button play-pause">
+                <i class="fas fa-pause"></i>
+            </button>
+            <button class="music-button volume-down">
+                <i class="fas fa-volume-down"></i>
+            </button>
+            <button class="music-button volume-up">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+        <audio id="background-music" loop>
+            <source src="music.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+    
+    <div class="volume-popup">
+        <p>Phím tắt âm lượng:</p>
+        <div><span class="key">↑</span> Tăng âm lượng</div>
+        <div><span class="key">↓</span> Giảm âm lượng</div>
+        <div><span class="key">M</span> Tắt/Bật âm thanh</div>
+    </div>
+    
+    <div class="footer">
+        ( Made with love by MinhSoora & Claude AI )
+    </div>
+
+    <script>
+        // Audio player setup
+        const audio = document.getElementById('background-music');
+        const playPauseBtn = document.querySelector('.play-pause');
+        const volumeDownBtn = document.querySelector('.volume-down');
+        const volumeUpBtn = document.querySelector('.volume-up');
+        let isMuted = false;
+        
+        // Set initial volume
+        audio.volume = 0.5;
+        
+        // Auto play music when page loads
+        window.addEventListener('load', () => {
+            try {
+                audio.play().catch(e => {
+                    console.log('Auto-play prevented by browser:', e);
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                });
+            } catch (e) {
+                console.error('Error playing audio:', e);
+            }
+        });
+        
+        // Play/Pause button functionality
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                audio.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+        
+        // Volume controls
+        volumeDownBtn.addEventListener('click', () => {
+            decreaseVolume();
+        });
+        
+        volumeUpBtn.addEventListener('click', () => {
+            increaseVolume();
+        });
+        
+        function decreaseVolume() {
+            if (audio.volume >= 0.1) {
+                audio.volume = Math.max(0, audio.volume - 0.1);
+                showVolumePopup();
+                
+                if (audio.volume < 0.1) {
+                    muteAudio();
+                }
+            } else {
+                muteAudio();
+            }
+        }
+        
+        function increaseVolume() {
+            if (isMuted) {
+                audio.muted = false;
+                isMuted = false;
+            }
+            
+            audio.volume = Math.min(1, audio.volume + 0.1);
+            showVolumePopup();
+        }
+        
+        function muteAudio() {
+            audio.muted = true;
+            isMuted = true;
+            showVolumePopup("Đã tắt âm thanh!");
+        }
+        
+        function unmuteAudio() {
+            audio.muted = false;
+            isMuted = false;
+            showVolumePopup("Đã bật âm thanh!");
+        }
+        
+        // Keyboard shortcuts for volume control
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') {
+                increaseVolume();
+                e.preventDefault();
+            } else if (e.key === 'ArrowDown') {
+                decreaseVolume();
+                e.preventDefault();
+            } else if (e.key === 'm' || e.key === 'M') {
+                if (isMuted) {
+                    unmuteAudio();
+                } else {
+                    muteAudio();
+                }
+                e.preventDefault();
+            }
+        });
+        
+        // Volume popup functionality
+        const volumePopup = document.querySelector('.volume-popup');
+        let volumePopupTimeout;
+        
+        function showVolumePopup(message) {
+            if (message) {
+                volumePopup.innerHTML = `<p>${message}</p>
+                    <div><span class="key">↑</span> Tăng âm lượng</div>
+                    <div><span class="key">↓</span> Giảm âm lượng</div>
+                    <div><span class="key">M</span> Tắt/Bật âm thanh</div>`;
+            }
+            
+            volumePopup.style.display = 'block';
+            volumePopup.style.animation = 'fadeIn 0.3s forwards';
+            
+            clearTimeout(volumePopupTimeout);
+            volumePopupTimeout = setTimeout(() => {
+                volumePopup.style.animation = 'fadeOut 0.3s forwards';
+                setTimeout(() => {
+                    volumePopup.style.display = 'none';
+                }, 300);
+            }, 2000);
+        }
+        
+        // Birthday reveal functionality
+        const hiddenBirthday = document.querySelector('.hidden-birthday');
+        const confirmationOverlay = document.querySelector('.confirmation-overlay');
+        const yesButton = document.querySelector('.yes-button');
+        const noButton = document.querySelector('.no-button');
+        const birthdayRevealOverlay = document.querySelector('.birthday-reveal-overlay');
+        const closeButton = document.querySelector('.close-button');
+        const birthdayContent = document.querySelector('.birthday-content');
+        const birthdayNumbers = document.querySelector('.birthday-numbers');
+        const ageElement = document.querySelector('.age');
+        let birthdayRevealed = false;
+        
+        // Calculate age
+        function calculateAge(birthdate) {
+            const birthDate = new Date(birthdate);
+            const today = new Date();
+            
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+        
+        // Birthday animation
+        function animateBirthdayReveal() {
+            birthdayRevealOverlay.style.display = 'flex';
+            
+            // Fade to black effect
+            setTimeout(() => {
+                // Show close button
+                closeButton.style.opacity = '1';
+                
+                // Generate random numbers animation
+                let iterations = 0;
+                const maxIterations = 20;
+                const interval = setInterval(() => {
+                    iterations++;
+                    
+                    // Generate random dates
+                    const randomDay = Math.floor(Math.random() * 31) + 1;
+                    const randomMonth = Math.floor(Math.random() * 12) + 1;
+                    const randomYear = Math.floor(Math.random() * 15) + 2000;
+                    
+                    birthdayNumbers.textContent = `${randomDay}/${randomMonth}/${randomYear}`;
+                    
+                    if (iterations === maxIterations) {
+                        clearInterval(interval);
+                        
+                        // Show real birthday
+                        birthdayNumbers.textContent = '22/08/2010';
+                        birthdayContent.style.opacity = '1';
+                        
+                        // Calculate and show age
+                        const age = calculateAge('2010-08-22');
+                        ageElement.textContent = `Tui ${age} tuổi rồi đóoooo!`;
+                        
+                        // Update the birthday placeholder
+                        if (!birthdayRevealed) {
+                            document.querySelector('.birthday-placeholder').textContent = '22/08/2010';
+                            birthdayRevealed = true;
+                        }
+                    }
+                }, 100);
+            }, 500);
+        }
+        
+        // Show confirmation popup when clicking on hidden birthday
+        hiddenBirthday.addEventListener('click', () => {
+            if (birthdayRevealed) {
+                return; // Don't show confirmation if already revealed
+            }
+            confirmationOverlay.style.display = 'flex';
+        });
+        
+        // Yes button click
+        yesButton.addEventListener('click', () => {
+            confirmationOverlay.style.display = 'none';
+            animateBirthdayReveal();
+        });
+        
+        // No button click
+        noButton.addEventListener('click', () => {
+            confirmationOverlay.style.display = 'none';
+        });
+        
+        // Close button click
+        closeButton.addEventListener('click', () => {
+            birthdayRevealOverlay.style.display = 'none';
+            // Reset the animation for next time
+            birthdayContent.style.opacity = '0';
+        });
+        
+        // Add subtle parallax effect to profile info on mouse move
+        const profileInfo = document.querySelector('.profile-info');
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth - 0.5;
+            const y = e.clientY / window.innerHeight - 0.5;
+            
+            profileInfo.style.transform = `translateX(${x * 5}px) translateY(${y * 5}px)`;
+        });
+        
+        // Add animation to social buttons
+        const socialButtons = document.querySelectorAll('.social-button');
+        socialButtons.forEach((button, index) => {
+            button.style.animationDelay = `${index * 0.1}s`;
+        });
+    </script>
+</body>
+</html>
