@@ -1,868 +1,459 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keyboard Speed Game</title>
+    <title>Keyboard Rhythm Game</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
+        body, html {
             margin: 0;
-            overflow: hidden;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #1e1e1e;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        h1 {
-            color: #ff5277;
-            font-size: 32px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 82, 119, 0.5);
-        }
-        
-        .game-section {
-            margin: 20px 0;
-        }
-        
-        .keyboard {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 5px;
-        }
-        
-        .key {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #333;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-            transition: all 0.1s ease;
-            user-select: none;
-        }
-        
-        .key:hover {
-            background-color: #444;
-            transform: translateY(-2px);
-        }
-        
-        .key.selected {
-            background-color: #ff5277;
-            color: #000;
-            box-shadow: 0 0 10px rgba(255, 82, 119, 0.8);
-        }
-        
-        .key.active {
-            background-color: #66ff66;
-            color: #000;
-            transform: scale(1.1);
-            box-shadow: 0 0 15px rgba(102, 255, 102, 0.8);
-        }
-        
-        .key.missed {
-            background-color: #ff3333;
-            color: #fff;
-            animation: shake 0.3s;
-        }
-        
-        .game-info {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-        }
-        
-        .info-box {
-            background-color: #333;
-            padding: 10px 20px;
-            border-radius: 5px;
-            width: 150px;
-        }
-        
-        .target-key {
-            font-size: 24px;
-            font-weight: bold;
-            height: 50px;
-            width: 50px;
-            background-color: #ff5277;
-            color: #000;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            transition: all 0.2s ease;
-        }
-        
-        .target-key.pulse {
-            animation: pulse 0.5s;
-        }
-        
-        .button {
-            background-color: #ff5277;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin: 10px;
-        }
-        
-        .button:hover {
-            background-color: #ff7291;
-            transform: translateY(-2px);
-        }
-        
-        .button:disabled {
-            background-color: #666;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .progress-bar {
+            padding: 0;
             width: 100%;
-            height: 20px;
-            background-color: #333;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress {
             height: 100%;
-            background-color: #ff5277;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+        }
+
+        #game-container {
+            position: relative;
             width: 100%;
-            transition: width 1s linear;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .visible {
-            display: block;
-        }
-        
-        .flex {
+            height: 100%;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        
-        .result {
-            font-size: 24px;
-            margin: 20px 0;
+
+        #background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            opacity: 0.3;
         }
-        
-        .score-value {
-            font-size: 40px;
-            color: #ff5277;
-            margin: 10px 0;
-            font-weight: bold;
+
+        #game-area {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            border: 4px solid #fff;
+            border-radius: 10px;
+            overflow: hidden;
         }
-        
-        .combo-indicator {
+
+        .key-circle {
             position: absolute;
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffcc00;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .message {
-            position: absolute;
-            font-size: 36px;
-            font-weight: bold;
-            opacity: 0;
-            transition: all 0.5s ease;
-            text-shadow: 0 0 10px currentColor;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
+            border: 3px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            animation: pulse 1.5s infinite;
+        }
+
+        .approaching {
+            animation: approach 3s linear forwards;
+        }
+
+        .hit-effect {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            animation: expand 0.5s ease-out forwards;
             pointer-events: none;
         }
-        
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-            100% { transform: translateX(0); }
-        }
-        
+
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.7; }
         }
-        
-        @keyframes fadeUp {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-50px); opacity: 0; }
+
+        @keyframes approach {
+            0% { transform: scale(0.2); opacity: 0.3; }
+            100% { transform: scale(1); opacity: 1; }
         }
-        
-        @keyframes fadeOutIn {
-            0% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0; transform: scale(1.5); }
+
+        @keyframes expand {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(2); opacity: 0; }
         }
-        
-        .tutorial {
+
+        #score-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        #timer-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        #start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+        }
+
+        #start-button {
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: #ff66aa;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        #start-button:hover {
+            background-color: #ff4499;
+            transform: scale(1.05);
+        }
+
+        #game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+        }
+
+        #restart-button {
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: #ff66aa;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        #restart-button:hover {
+            background-color: #ff4499;
+            transform: scale(1.05);
+        }
+
+        #mobile-message {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1000;
             padding: 20px;
-            border-radius: 10px;
-            margin: 20px auto;
-            max-width: 600px;
         }
-        
-        .tutorial h2 {
-            color: #ff5277;
-        }
-        
-        .tutorial li {
-            text-align: left;
-            margin: 10px 0;
+
+        .key-hint {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Keyboard Speed Game</h1>
+    <div id="game-container">
+        <div id="background-video"></div>
         
-        <!-- Setup Screen -->
-        <div id="setupScreen" class="game-section">
-            <div class="tutorial">
-                <h2>Hướng dẫn chơi</h2>
-                <ul>
-                    <li>Chọn 3 phím liền kề trên bàn phím để chơi</li>
-                    <li>Khi trò chơi bắt đầu, bấm phím được hiển thị càng nhanh càng tốt</li>
-                    <li>Bạn có 1 phút để đạt điểm cao nhất</li>
-                    <li>Bấm liên tiếp chính xác sẽ tăng combo và điểm số</li>
-                </ul>
-            </div>
-            
-            <h2>Chọn 3 phím liền kề trên bàn phím</h2>
-            <div class="keyboard" id="keyboardSelection">
-                <!-- Keyboard will be generated here -->
-            </div>
-            
-            <p>Đã chọn: <span id="selectedKeys">Chưa chọn phím nào</span></p>
-            <button id="startGameBtn" class="button" disabled>Bắt đầu chơi</button>
+        <div id="game-area">
+            <div id="score-display">Score: 0</div>
+            <div id="timer-display">Time: 60s</div>
+            <div class="key-hint">Sử dụng phím A, S, D, F, J, K, L để chơi</div>
         </div>
-        
-        <!-- Game Screen -->
-        <div id="gameScreen" class="game-section hidden">
-            <div class="game-info">
-                <div class="info-box">
-                    <h3>Điểm</h3>
-                    <div id="score">0</div>
-                </div>
-                <div class="info-box">
-                    <h3>Phím hiện tại</h3>
-                    <div class="target-key" id="currentKey">?</div>
-                </div>
-                <div class="info-box">
-                    <h3>Combo</h3>
-                    <div id="combo">0</div>
-                </div>
-            </div>
-            
-            <div class="info-box">
-                <h3>Thời gian còn lại</h3>
-                <div id="timeLeft">60s</div>
-            </div>
-            
-            <div class="progress-bar">
-                <div class="progress" id="timeProgress"></div>
-            </div>
-            
-            <div class="keyboard" id="gameKeyboard">
-                <!-- Game keyboard will be shown here -->
-            </div>
+
+        <div id="start-screen">
+            <h1>Keyboard Rhythm Game</h1>
+            <p>Bấm phím khi vòng tròn xuất hiện để ghi điểm!</p>
+            <button id="start-button">Bắt đầu</button>
         </div>
-        
-        <!-- Result Screen -->
-        <div id="resultScreen" class="game-section hidden">
-            <h2>Trò chơi kết thúc!</h2>
-            <div class="result">Điểm của bạn:</div>
-            <div class="score-value" id="finalScore">0</div>
-            <div class="result">Combo cao nhất: <span id="maxCombo">0</span></div>
-            <div class="result">Phím bấm chính xác: <span id="correctHits">0</span></div>
-            <div class="result">Phím bấm sai: <span id="missedHits">0</span></div>
-            
-            <button id="playAgainBtn" class="button">Chơi lại</button>
+
+        <div id="game-over">
+            <h1>Game Over!</h1>
+            <h2 id="final-score">Điểm: 0</h2>
+            <button id="restart-button">Chơi lại</button>
         </div>
     </div>
 
+    <div id="mobile-message">
+        <h1>Game không hỗ trợ trên thiết bị di động</h1>
+        <p>Vui lòng sử dụng máy tính để có trải nghiệm tốt nhất.</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        // Audio context and effects
-        let audioContext;
-        let hitSound, missSound, comboSound, finishSound;
-        
-        // Initialize audio
-        function initAudio() {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Create sounds
-                createHitSound();
-                createMissSound();
-                createComboSound();
-                createFinishSound();
-            } catch (e) {
-                console.error("Web Audio API not supported:", e);
+        $(document).ready(function() {
+            // Kiểm tra thiết bị di động
+            function isMobile() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             }
-        }
-        
-        function createHitSound() {
-            const attackTime = 0.01;
-            const decayTime = 0.1;
-            const releaseTime = 0.1;
-            
-            hitSound = () => {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.type = 'sine';
-                oscillator.frequency.value = 800;
-                
-                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + attackTime);
-                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + attackTime + decayTime);
-                gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + attackTime + decayTime + releaseTime);
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.start();
-                oscillator.stop(audioContext.currentTime + attackTime + decayTime + releaseTime + 0.1);
-            };
-        }
-        
-        function createMissSound() {
-            missSound = () => {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.type = 'sawtooth';
-                oscillator.frequency.value = 200;
-                
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.start();
-                oscillator.stop(audioContext.currentTime + 0.3);
-            };
-        }
-        
-        function createComboSound() {
-            comboSound = () => {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.type = 'triangle';
-                oscillator.frequency.value = 1200;
-                
-                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.05);
-                gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3);
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.start();
-                oscillator.stop(audioContext.currentTime + 0.4);
-            };
-        }
-        
-        function createFinishSound() {
-            finishSound = () => {
-                const time = audioContext.currentTime;
-                
-                // Note frequencies
-                const frequencies = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-                
-                frequencies.forEach((freq, i) => {
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.type = 'sine';
-                    oscillator.frequency.value = freq;
-                    
-                    gainNode.gain.setValueAtTime(0, time + i * 0.1);
-                    gainNode.gain.linearRampToValueAtTime(0.2, time + i * 0.1 + 0.05);
-                    gainNode.gain.linearRampToValueAtTime(0, time + i * 0.1 + 0.5);
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.start(time + i * 0.1);
-                    oscillator.stop(time + i * 0.1 + 0.6);
+
+            if (isMobile()) {
+                $("#mobile-message").css("display", "flex");
+                return;
+            }
+
+            // Cài đặt YouTube API
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            var player;
+            var gameStarted = false;
+            var score = 0;
+            var timeLeft = 60;
+            var timer;
+            var gameKeys = ['a', 's', 'd', 'f', 'j', 'k', 'l'];
+            var activeCircles = {};
+            var circleGenerationInterval;
+
+            // Hàm khởi tạo YouTube Player
+            window.onYouTubeIframeAPIReady = function() {
+                player = new YT.Player('background-video', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: 'dQw4w9WgXcQ', // Có thể thay đổi ID video
+                    playerVars: {
+                        'autoplay': 0,
+                        'controls': 0,
+                        'showinfo': 0,
+                        'rel': 0,
+                        'loop': 1,
+                        'playlist': 'dQw4w9WgXcQ', // Cần lặp lại ID video cho tính năng loop
+                        'mute': 0
+                    },
+                    events: {
+                        'onReady': onPlayerReady
+                    }
                 });
             };
-        }
-        
-        // Game variables
-        let selectedKeys = [];
-        let currentGame = {
-            isPlaying: false,
-            score: 0,
-            combo: 0,
-            maxCombo: 0,
-            correctHits: 0,
-            missedHits: 0,
-            timeLeft: 60,
-            currentKeyIndex: -1,
-            gameInterval: null,
-            countdownInterval: null
-        };
-        
-        // DOM Elements
-        const setupScreen = document.getElementById('setupScreen');
-        const gameScreen = document.getElementById('gameScreen');
-        const resultScreen = document.getElementById('resultScreen');
-        const keyboardSelection = document.getElementById('keyboardSelection');
-        const gameKeyboard = document.getElementById('gameKeyboard');
-        const selectedKeysDisplay = document.getElementById('selectedKeys');
-        const startGameBtn = document.getElementById('startGameBtn');
-        const scoreDisplay = document.getElementById('score');
-        const comboDisplay = document.getElementById('combo');
-        const currentKeyDisplay = document.getElementById('currentKey');
-        const timeLeftDisplay = document.getElementById('timeLeft');
-        const timeProgress = document.getElementById('timeProgress');
-        const finalScoreDisplay = document.getElementById('finalScore');
-        const maxComboDisplay = document.getElementById('maxCombo');
-        const correctHitsDisplay = document.getElementById('correctHits');
-        const missedHitsDisplay = document.getElementById('missedHits');
-        const playAgainBtn = document.getElementById('playAgainBtn');
-        
-        // Keyboard layout
-        const keyboardLayout = [
-            ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
-            ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']'],
-            ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", '\\'],
-            ['Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/']
-        ];
-        
-        // Generate keyboard for selection
-        function generateKeyboard() {
-            keyboardLayout.forEach(row => {
-                const rowDiv = document.createElement('div');
-                rowDiv.style.display = 'flex';
-                rowDiv.style.justifyContent = 'center';
-                rowDiv.style.margin = '5px 0';
-                
-                row.forEach(key => {
-                    const keyDiv = document.createElement('div');
-                    keyDiv.className = 'key';
-                    keyDiv.textContent = key;
-                    keyDiv.dataset.key = key.toLowerCase();
-                    keyDiv.addEventListener('click', () => toggleKeySelection(keyDiv));
-                    rowDiv.appendChild(keyDiv);
-                });
-                
-                keyboardSelection.appendChild(rowDiv);
-            });
-        }
-        
-        // Toggle key selection
-        function toggleKeySelection(keyDiv) {
-            const keyValue = keyDiv.dataset.key;
-            
-            if (keyDiv.classList.contains('selected')) {
-                // Deselect key
-                keyDiv.classList.remove('selected');
-                selectedKeys = selectedKeys.filter(k => k !== keyValue);
-            } else {
-                // Select key only if less than 3 keys are selected
-                if (selectedKeys.length < 3) {
-                    keyDiv.classList.add('selected');
-                    selectedKeys.push(keyValue);
-                }
+
+            function onPlayerReady(event) {
+                // Player đã sẵn sàng, nhưng chúng ta chỉ phát khi người dùng bắt đầu game
             }
-            
-            // Update selected keys display
-            if (selectedKeys.length === 0) {
-                selectedKeysDisplay.textContent = "Chưa chọn phím nào";
-            } else {
-                selectedKeysDisplay.textContent = selectedKeys.map(k => k.toUpperCase()).join(', ');
-            }
-            
-            // Enable/disable start button based on selection
-            startGameBtn.disabled = selectedKeys.length !== 3;
-        }
-        
-        // Generate keyboard for gameplay
-        function generateGameKeyboard() {
-            gameKeyboard.innerHTML = '';
-            
-            const rowDiv = document.createElement('div');
-            rowDiv.style.display = 'flex';
-            rowDiv.style.justifyContent = 'center';
-            rowDiv.style.margin = '5px 0';
-            
-            selectedKeys.forEach(key => {
-                const keyDiv = document.createElement('div');
-                keyDiv.className = 'key';
-                keyDiv.textContent = key.toUpperCase();
-                keyDiv.dataset.key = key.toLowerCase();
-                rowDiv.appendChild(keyDiv);
-            });
-            
-            gameKeyboard.appendChild(rowDiv);
-        }
-        
-        // Start the game
-        function startGame() {
-            // Make sure audio is initialized
-            if (!audioContext) {
-                initAudio();
-            }
-            
-            // Reset game state
-            currentGame = {
-                isPlaying: true,
-                score: 0,
-                combo: 0,
-                maxCombo: 0,
-                correctHits: 0,
-                missedHits: 0,
-                timeLeft: 60,
-                currentKeyIndex: -1,
-                gameInterval: null,
-                countdownInterval: null
-            };
-            
-            // Update UI
-            setupScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
-            resultScreen.classList.add('hidden');
-            
-            scoreDisplay.textContent = currentGame.score;
-            comboDisplay.textContent = currentGame.combo;
-            timeLeftDisplay.textContent = currentGame.timeLeft + 's';
-            
-            // Generate game keyboard
-            generateGameKeyboard();
-            
-            // Set new target key
-            setNewTargetKey();
-            
-            // Start game timer
-            currentGame.countdownInterval = setInterval(() => {
-                currentGame.timeLeft--;
-                timeLeftDisplay.textContent = currentGame.timeLeft + 's';
-                timeProgress.style.width = (currentGame.timeLeft / 60 * 100) + '%';
-                
-                if (currentGame.timeLeft <= 0) {
-                    endGame();
-                }
-            }, 1000);
-            
-            // Add keyboard event listener
-            document.addEventListener('keydown', handleKeyPress);
-        }
-        
-        // Set new target key
-        function setNewTargetKey() {
-            const prevIndex = currentGame.currentKeyIndex;
-            let newIndex;
-            
-            // Make sure we don't get the same key twice in a row
-            do {
-                newIndex = Math.floor(Math.random() * selectedKeys.length);
-            } while (selectedKeys.length > 1 && newIndex === prevIndex);
-            
-            currentGame.currentKeyIndex = newIndex;
-            const targetKey = selectedKeys[newIndex];
-            
-            // Update display
-            currentKeyDisplay.textContent = targetKey.toUpperCase();
-            currentKeyDisplay.classList.add('pulse');
-            
-            // Remove pulse animation after it completes
-            setTimeout(() => {
-                currentKeyDisplay.classList.remove('pulse');
-            }, 500);
-        }
-        
-        // Handle key press
-        function handleKeyPress(event) {
-            if (!currentGame.isPlaying) return;
-            
-            const pressedKey = event.key.toLowerCase();
-            const targetKey = selectedKeys[currentGame.currentKeyIndex];
-            const keyElements = document.querySelectorAll('.key');
-            
-            // Find the pressed key element
-            let pressedKeyElement = null;
-            keyElements.forEach(keyElem => {
-                if (keyElem.dataset.key === pressedKey) {
-                    pressedKeyElement = keyElem;
-                }
-            });
-            
-            if (pressedKeyElement) {
-                if (pressedKey === targetKey) {
-                    // Correct key pressed
-                    handleCorrectKeyPress(pressedKeyElement);
-                } else if (selectedKeys.includes(pressedKey)) {
-                    // Wrong key but one of selected keys
-                    handleWrongKeyPress(pressedKeyElement);
-                }
-            }
-        }
-        
-        // Handle correct key press
-        function handleCorrectKeyPress(keyElement) {
-            // Play hit sound
-            if (hitSound) hitSound();
-            
-            // Visual feedback
-            keyElement.classList.add('active');
-            setTimeout(() => {
-                keyElement.classList.remove('active');
-            }, 100);
-            
-            // Create particles
-            createParticles(keyElement, 10, '#66ff66');
-            
-            // Update score and combo
-            currentGame.combo++;
-            currentGame.correctHits++;
-            
-            // Calculate score based on combo
-            let pointsToAdd = 100;
-            if (currentGame.combo > 5) pointsToAdd = 150;
-            if (currentGame.combo > 10) pointsToAdd = 200;
-            if (currentGame.combo > 20) pointsToAdd = 300;
-            if (currentGame.combo > 30) pointsToAdd = 500;
-            
-            currentGame.score += pointsToAdd;
-            
-            // Update max combo
-            if (currentGame.combo > currentGame.maxCombo) {
-                currentGame.maxCombo = currentGame.combo;
-            }
-            
-            // Show combo message for milestone combos
-            if (currentGame.combo % 5 === 0) {
-                showComboMessage(currentGame.combo);
-                if (comboSound) comboSound();
-            }
-            
-            // Update UI
-            scoreDisplay.textContent = currentGame.score;
-            comboDisplay.textContent = currentGame.combo;
-            
-            // Set new target key
-            setNewTargetKey();
-        }
-        
-        // Handle wrong key press
-        function handleWrongKeyPress(keyElement) {
-            // Play miss sound
-            if (missSound) missSound();
-            
-            // Visual feedback
-            keyElement.classList.add('missed');
-            setTimeout(() => {
-                keyElement.classList.remove('missed');
-            }, 300);
-            
-            // Create particles
-            createParticles(keyElement, 5, '#ff3333');
-            
-            // Reset combo and update counters
-            currentGame.combo = 0;
-            currentGame.missedHits++;
-            
-            // Update UI
-            comboDisplay.textContent = currentGame.combo;
-            
-            // Show miss message
-            showMessage("Hỏng rồi!", "#ff3333");
-        }
-        
-        // Create particles
-        function createParticles(element, count, color) {
-            const rect = element.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            for (let i = 0; i < count; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.backgroundColor = color;
-                
-                document.body.appendChild(particle);
-                
-                const angle = Math.random() * Math.PI * 2;
-                const speed = 2 + Math.random() * 3;
-                const distance = 30 + Math.random() * 50;
-                const size = 3 + Math.random() * 7;
-                
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = centerX + 'px';
-                particle.style.top = centerY + 'px';
-                
-                const finalX = centerX + Math.cos(angle) * distance;
-                const finalY = centerY + Math.sin(angle) * distance;
-                
-                particle.style.transition = `all ${speed / 10}s ease-out`;
-                
-                setTimeout(() => {
-                    particle.style.left = finalX + 'px';
-                    particle.style.top = finalY + 'px';
-                    particle.style.opacity = '0';
-                }, 10);
-                
-                setTimeout(() => {
-                    document.body.removeChild(particle);
-                }, speed * 100);
-            }
-        }
-        
-        // Show combo message
-        function showComboMessage(combo) {
-            const comboText = document.createElement('div');
-            comboText.className = 'message';
-            comboText.style.color = getComboColor(combo);
-            comboText.textContent = `${combo} COMBO!`;
-            comboText.style.left = '50%';
-            comboText.style.top = '50%';
-            comboText.style.transform = 'translate(-50%, -50%)';
-            
-            document.body.appendChild(comboText);
-            
-            setTimeout(() => {
-                comboText.style.opacity = '1';
-                comboText.style.transform = 'translate(-50%, -50%) scale(1.2)';
-            }, 10);
-            
-            setTimeout(() => {
-                comboText.style.opacity = '0';
-                comboText.style.transform = 'translate(-50%, -50%) scale(0.8)';
-            }, 1000);
-            
-            setTimeout(() => {
-                document.body.removeChild(comboText);
-            }, 1500);
-        }
-        
-        // Show general message
-        function showMessage(text, color) {
-            const message = document.createElement('div');
-            message.className = 'message';
-            message.style.color = color;
-            message.textContent = text;
-            message.style.left = '50%';
-            message.style.top = '40%';
-            message.style.transform = 'translate(-50%, -50%)';
-            
-            document.body.appendChild(message);
-            
-            setTimeout(() => {
-                message.style.opacity = '1';
-            }, 10);
-            
-            setTimeout(() => {
-                message.style.opacity = '0';
-            }, 800);
-            
-            setTimeout(() => {
-                document.body.removeChild(message);
-            }, 1300);
-        }
-        
-        // Get color based on combo
-        function getComboColor(combo) {
-            if (combo >= 30) return '#ff00ff';
-            if (combo >= 20) return '#00ffff';
-            if (combo >= 10) return '#ffcc00';
-            if (combo >= 5) return '#66ff66';
-            return '#ffffff';
-        }
-        
-        // End game
-        function endGame() {
-            currentGame.isPlaying = false;
-            
-            // Clear intervals
-            clearInterval(currentGame.countdownInterval);
-            clearInterval(currentGame.gameInterval);
-            
-            // Remove event listener
-            document.removeEventListener('keydown', handleKeyPress);
-            
-            // Play finish sound
-            if (finishSound) finishSound();
-            
-            // Show result screen
-            gameScreen.classList.add('hidden');
-            resultScreen.classList.remove('hidden');
-            
-            // Update result screen
-            finalScoreDisplay.textContent = currentGame.score;
-            maxComboDisplay.textContent = currentGame.maxCombo;
-            correctHitsDisplay.textContent = currentGame.correctHits;
-            missedHitsDisplay.textContent = currentGame.missedHits;
-        }
-        
-        // Reset game for replay
-        function resetGame() {
-            selectedKeys = [];
-            
-            // Reset keyboard selection
-            const keyElements = document.querySelectorAll('#keyboardSelection .key');
-            keyElements.forEach(key => {
-                key.classList.remove('selected');
-            });
-            
-            selectedKeysDisplay.textContent = "Chưa chọn phím nào";
-            startGameBtn.disabled = true;
-            
-            // Show setup screen
-            setupScreen.classList.remove('hidden');
-            resultScreen.classList.add('hidden');
-        }
-        
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            generateKeyboard();
-            
-            startGameBtn.addEventListener('click', () => {
+
+            // Bắt đầu game
+            $('#start-button').click(function() {
                 startGame();
             });
-            
-            playAgainBtn.addEventListener('click', () => {
-                resetGame();
+
+            $('#restart-button').click(function() {
+                location.reload();
             });
+
+            function startGame() {
+                $('#start-screen').hide();
+                score = 0;
+                timeLeft = 60;
+                gameStarted = true;
+                updateScore();
+
+                // Bắt đầu phát nhạc
+                if (player && player.playVideo) {
+                    player.playVideo();
+                }
+
+                // Bắt đầu tạo vòng tròn
+                circleGenerationInterval = setInterval(generateRandomCircle, 1000);
+
+                // Đặt timer đếm ngược
+                timer = setInterval(function() {
+                    timeLeft--;
+                    $('#timer-display').text('Time: ' + timeLeft + 's');
+                    
+                    if (timeLeft <= 0) {
+                        endGame();
+                    }
+                }, 1000);
+            }
+
+            function endGame() {
+                gameStarted = false;
+                clearInterval(timer);
+                clearInterval(circleGenerationInterval);
+                
+                if (player && player.pauseVideo) {
+                    player.pauseVideo();
+                }
+
+                // Xóa tất cả các vòng tròn
+                $('.key-circle').remove();
+                activeCircles = {};
+
+                // Hiển thị màn hình Game Over
+                $('#final-score').text('Điểm: ' + score);
+                $('#game-over').css('display', 'flex');
+            }
+
+            function generateRandomCircle() {
+                if (!gameStarted) return;
+
+                // Chọn ngẫu nhiên một phím từ danh sách
+                var keyIndex = Math.floor(Math.random() * gameKeys.length);
+                var key = gameKeys[keyIndex];
+                
+                // Tạo ID duy nhất cho vòng tròn
+                var circleId = 'circle-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                
+                // Tính toán vị trí ngẫu nhiên trong game area
+                var gameArea = $('#game-area');
+                var maxX = gameArea.width() - 100;
+                var maxY = gameArea.height() - 100;
+                var posX = Math.floor(Math.random() * maxX);
+                var posY = Math.floor(Math.random() * maxY);
+
+                // Tạo vòng tròn mới
+                var circle = $('<div>')
+                    .addClass('key-circle approaching')
+                    .attr('id', circleId)
+                    .attr('data-key', key)
+                    .css({
+                        'left': posX + 'px',
+                        'top': posY + 'px',
+                        'background-color': getRandomColor(0.5)
+                    })
+                    .text(key.toUpperCase());
+
+                gameArea.append(circle);
+                
+                // Thêm vào danh sách các vòng tròn đang hoạt động
+                activeCircles[circleId] = {
+                    key: key,
+                    element: circle,
+                    createdAt: Date.now()
+                };
+
+                // Tự động xóa vòng tròn sau 3 giây (thời gian của animation approach)
+                setTimeout(function() {
+                    if (activeCircles[circleId]) {
+                        circle.remove();
+                        delete activeCircles[circleId];
+                    }
+                }, 3000);
+            }
+
+            // Lắng nghe sự kiện phím
+            $(document).keydown(function(e) {
+                if (!gameStarted) return;
+                
+                var key = e.key.toLowerCase();
+                
+                // Kiểm tra xem phím có trong danh sách phím hợp lệ không
+                if (gameKeys.includes(key)) {
+                    // Tìm tất cả các vòng tròn có phím tương ứng
+                    var matchingCircles = [];
+                    
+                    for (var id in activeCircles) {
+                        if (activeCircles[id].key === key) {
+                            matchingCircles.push(activeCircles[id]);
+                        }
+                    }
+                    
+                    if (matchingCircles.length > 0) {
+                        // Sắp xếp vòng tròn theo thời gian tạo (lấy cái cũ nhất)
+                        matchingCircles.sort(function(a, b) {
+                            return a.createdAt - b.createdAt;
+                        });
+                        
+                        var hitCircle = matchingCircles[0];
+                        var circleElement = hitCircle.element;
+                        var position = circleElement.position();
+                        
+                        // Tạo hiệu ứng va chạm
+                        var hitEffect = $('<div>')
+                            .addClass('hit-effect')
+                            .css({
+                                'left': position.left,
+                                'top': position.top,
+                                'background-color': getRandomColor(0.3)
+                            });
+                        
+                        $('#game-area').append(hitEffect);
+                        
+                        // Xóa hiệu ứng sau khi animation kết thúc
+                        setTimeout(function() {
+                            hitEffect.remove();
+                        }, 500);
+                        
+                        // Xóa vòng tròn đã bấm
+                        circleElement.remove();
+                        delete activeCircles[hitCircle.element.attr('id')];
+                        
+                        // Tăng điểm
+                        score += 100;
+                        updateScore();
+                    } else {
+                        // Trừ điểm nếu bấm sai
+                        score = Math.max(0, score - 50);
+                        updateScore();
+                    }
+                }
+            });
+
+            function updateScore() {
+                $('#score-display').text('Score: ' + score);
+            }
+
+            function getRandomColor(opacity) {
+                var colors = [
+                    'rgba(255, 99, 132, ' + opacity + ')',
+                    'rgba(54, 162, 235, ' + opacity + ')',
+                    'rgba(255, 206, 86, ' + opacity + ')',
+                    'rgba(75, 192, 192, ' + opacity + ')',
+                    'rgba(153, 102, 255, ' + opacity + ')',
+                    'rgba(255, 159, 64, ' + opacity + ')'
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
         });
     </script>
 </body>
