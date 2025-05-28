@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marus Shop - Menu</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #1e3c72, #2a5298, #1e3c72, #4a90e2);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+            color: #333;
+            perspective: 1000px;
+            overflow-x: hidden;
+        }
+
+        body.reduced-effects {
+            animation: none;
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Studio Logo */
+        .studio-logo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            opacity: 1;
+            transition: opacity 2s ease-in-out;
+            animation: logoFadeIn 3s ease-in-out;
+        }
+
+        .studio-logo.fade-out {
+            opacity: 0.3;
+        }
+
+        .studio-logo:hover {
+            opacity: 1 !important;
+        }
+
+        @keyframes logoFadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .studio-text {
+            background: linear-gradient(45deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Hide logo on small screens */
+        @media (max-width: 768px) {
+            .studio-logo {
+                display: none;
+            }
+        }
+
+        /* Performance Toggle */
+        .performance-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .performance-toggle:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+        }
+
+        /* Book Container */
+        .book-container {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 20px;
+            perspective: 1500px;
+        }
+
+        .book {
+            position: relative;
+            transform-style: preserve-3d;
+            margin: 0 auto;
+        }
+
+        .page {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform-origin: left center;
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ddd, #ccc, #ddd);
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .page.turning {
+            transform: rotateY(-15deg) translateZ(20px);
+            box-shadow: -10px 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .reduced-effects .page {
+            transition: all 0.3s ease;
+        }
+
+        .reduced-effects .page.turning {
+            transform: scale(1.02);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 3rem;
+            color: #2a5298;
+            margin-bottom: 10px;
+            animation: logoSpin 4s linear infinite;
+        }
+
+        .reduced-effects .logo {
+            animation: none;
+        }
+
+        @keyframes logoSpin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .shop-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .menu-item {
+            background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+            transform: translateY(0);
+        }
+
+        .reduced-effects .menu-item {
+            transition: all 0.2s ease;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+            z-index: 2;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-item:hover::before {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+        }
+
+        .menu-item:hover::after {
+            opacity: 0.8;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .reduced-effects .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item > * {
+            position: relative;
+            z-index: 3;
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .item-icon {
+            font-size: 2rem;
+            color: #4a90e2;
+            margin-right: 15px;
+            animation: iconPulse 2s ease-in-out infinite;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .reduced-effects .item-icon {
+            animation: none;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .item-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ffffff;
+            flex-grow: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .item-duration {
+            background: linear-gradient(45deg, #2a5298, #4a90e2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .item-details {
+            margin-bottom: 15px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .price-label {
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .price-value {
+            font-weight: bold;
+            color: #4a90e2;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .note {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            border-radius: 10px;
+            font-style: italic;
+            color: #ffffff;
+            border-left: 4px solid #4a90e2;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Info Button */
+        .info-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(74, 144, 226, 0.9);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            z-index: 4;
+        }
+
+        .info-button:hover {
+            background: rgba(74, 144, 226, 1);
+            transform: scale(1.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .modal p {
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .special-section {
+            background: linear-gradient(135deg, #4a90e2, #2a5298);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .special-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s linear infinite;
+        }
+
+        .reduced-effects .special-section::before {
+            animation: none;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .special-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-info {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(42, 82, 152, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .reduced-effects .ripple::after {
+            transition: none;
+        }
+
+        .ripple:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .shop-title {
+                font-size: 2rem;
+            }
+            
+            .book-container {
+                padding: 15px;
+                margin-top: 60px;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+
+            .performance-toggle {
+                top: 10px;
+                right: 10px;
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Studio Logo -->
+    <div class="studio-logo" id="studioLogo">
+        <div class="studio-text">MinhSoora Studio</div>
+    </div>
+
+    <!-- Performance Toggle -->
+    <button class="performance-toggle" id="performanceToggle">
+        <i class="fas fa-tachometer-alt"></i> Giảm hiệu ứng
+    </button>
+
+    <div class="book-container">
+        <div class="book">
+            <!-- Header Page -->
+            <div class="page" id="headerPage">
+                <div class="header">
+                    <div class="logo">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h1 class="shop-title">MARUS SHOP</h1>
+                    <p class="subtitle">Một cửa hàng của MinhSoora Studio</p>
+                </div>
+            </div>
+
+            <!-- Menu Pages -->
+            <div class="page" id="discordPage">
+                <div class="menu-grid">
+                    <!-- Discord Nitro Login -->
+                    <div class="menu-item ripple">
+                        <button class="info-button" onclick="showModal('discord-nitro-info')">
+                            <i class="fas fa-info"></i>
+                        </button>
+                        <div class="item-header">
+                            <i class="fab fa-discord item-icon"></i>
+                            <h3 class="item-title">Discord Nitro Login</h3>
+                        </div>
+                        <div class="item-details">
+                            <div class="price-row">
+                                <span class="price-label">Boost 1 tháng:</span>
+                                <span class="price-value">95,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">Boost 2 tháng:</span>
+                                <span class="price-value">0 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">Boost 1 năm:</span>
+                                <span class="price-value">875,000 VNĐ</span>
+                            </div>
+                        </div>
+                        <div class="note">
+                            Gửi tài khoản, mật khẩu, mã 2fa tại khoản discord của bạn.
+                        </div>
+                    </div>
+
+                    <!-- Discord Nitro Boost Trial -->
+                    <div class="menu-item ripple">
+                        <button class="info-button" onclick="showModal('discord-trial-info')">
+                            <i class="fas fa-info"></i>
+                        </button>
+                        <div class="item-header">
+                            <i class="fab fa-discord item-icon"></i>
+                            <h3 class="item-title">Discord Nitro Boost Trial</h3>
+                            <span class="item-duration">3 tháng</span>
+                        </div>
+                        <div class="item-details">
+                            <div class="price-row">
+                                <span class="price-label">Giá bán:</span>
+                                <span class="price-value">40,000 VNĐ</span>
+                            </div>
+                        </div>
+                        <div class="note">
+                            Gửi tài khoản, mật khẩu, mã 2fa tại khoản discord của bạn.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="serverBoostPage">
+                <div class="menu-grid">
+                    <!-- Discord Server Boost Options -->
+                    <div class="menu-item ripple">
+                        <button class="info-button" onclick="showModal('server-boost-info')">
+                            <i class="fas fa-info"></i>
+                        </button>
+                        <div class="item-header">
+                            <i class="fas fa-rocket item-icon"></i>
+                            <h3 class="item-title">Discord Server Boost</h3>
+                        </div>
+                        <div class="item-details">
+                            <div class="price-row">
+                                <span class="price-label">3 tháng - 1 boost:</span>
+                                <span class="price-value">15,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">3 tháng - 2 boost:</span>
+                                <span class="price-value">30,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">3 tháng - 7 boost:</span>
+                                <span class="price-value">95,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">3 tháng - 14 boost:</span>
+                                <span class="price-value">180,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">4 tháng - 7 boost:</span>
+                                <span class="price-value">125,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">4 tháng - 14 boost:</span>
+                                <span class="price-value">240,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">1 tháng - 14 boost:</span>
+                                <span class="price-value">65,000 VNĐ</span>
+                            </div>
+                        </div>
+                        <div class="note">
+                            Gửi link mời vào server. Trong 24 giờ sẽ có.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="softwarePage">
+                <div class="menu-grid">
+                    <!-- ChatGPT Plus -->
+                    <div class="menu-item ripple">
+                        <button class="info-button" onclick="showModal('chatgpt-info')">
+                            <i class="fas fa-info"></i>
+                        </button>
+                        <div class="item-header">
+                            <i class="fas fa-robot item-icon"></i>
+                            <h3 class="item-title">ChatGPT Plus</h3>
+                        </div>
+                        <div class="item-details">
+                            <div class="price-row">
+                                <span class="price-label">Chính chủ, chính hãng:</span>
+                                <span class="price-value">320,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">Acc cấp:</span>
+                                <span class="price-value">95,000 VNĐ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Minecraft Premium -->
+                    <div class="menu-item ripple">
+                        <button class="info-button" onclick="showModal('minecraft-info')">
+                            <i class="fas fa-info"></i>
+                        </button>
+                        <div class="item-header">
+                            <i class="fas fa-cube item-icon"></i>
+                            <h3 class="item-title">Minecraft Premium</h3>
+                        </div>
+                        <div class="item-details">
+                            <div class="price-row">
+                                <span class="price-label">Acc Minecraft Premium:</span>
+                                <span class="price-value">190,000 VNĐ</span>
+                            </div>
+                        </div>
+                        <div class="note">
+                            Loại Acc Minecraft được bán là Acc MC MFA (Mail Full Access) tức bạn sẽ có thể truy cập vào email, thay đổi 100% thông tin acc của bạn.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="designPage">
+                <div class="menu-grid">
+                    <!-- Canva Pro -->
+                    <div class="menu-item ripple">
+                        <button class="info-button" onclick="showModal('canva-info')">
+                            <i class="fas fa-info"></i>
+                        </button>
+                        <div class="item-header">
+                            <i class="fas fa-palette item-icon"></i>
+                            <h3 class="item-title">Canva Pro</h3>
+                        </div>
+                        <div class="item-details">
+                            <div class="price-row">
+                                <span class="price-label">3 tháng:</span>
+                                <span class="price-value">65,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">6 tháng:</span>
+                                <span class="price-value">125,000 VNĐ</span>
+                            </div>
+                            <div class="price-row">
+                                <span class="price-label">12 tháng:</span>
+                                <span class="price-value">170,000 VNĐ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <h3 style="color: #1e3c72; margin-bottom: 10px;">
+                        <i class="fas fa-phone" style="margin-right: 10px;"></i>
+                        Liên hệ đặt hàng
+                    </h3>
+                    <p style="color: #666;">Hãy liên hệ với chúng tôi để được tư vấn và báo giá chi tiết!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="discord-nitro-info" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Đơn Discord Nitro Login được thực hiện như thế nào?</h3>
+            <p><strong>Bước 1:</strong> Bạn cung cấp thông tin tài khoản Discord (username, password, mã 2FA nếu có)</p>
+            <p><strong>Bước 2:</strong> Chúng tôi sẽ đăng nhập vào tài khoản của bạn một cách an toàn</p>
+            <p><strong>Bước 3:</strong> Kích hoạt Discord Nitro theo gói bạn đã chọn</p>
+            <p><strong>Bước 4:</strong> Xác nhận và giao hàng trong vòng 24h</p>
+            <p><strong>Lưu ý:</strong> Tài khoản của bạn sẽ được bảo mật tuyệt đối, chúng tôi không lưu trữ thông tin đăng nhập. Nhưng để đảm bảo, bạn có thể thay đổi mật khẩu sau khi tụi mình hoàn thành.</p>
+        </div>
+    </div>
+
+    <div id="discord-trial-info" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Đơn Discord Nitro Trial được thực hiện như thế nào?</h3>
+            <p><strong>Bước 1:</strong> Cung cấp thông tin tài khoản Discord chưa từng sử dụng trial</p>
+            <p><strong>Bước 2:</strong> Chúng tôi sẽ kích hoạt gói trial 3 tháng</p>
+            <p><strong>Bước 3:</strong> Bạn sẽ có đầy đủ tính năng Nitro trong 3 tháng</p>
+            <p><strong>Lưu ý:</strong> Tài khoản phải chưa từng sử dụng trial Discord Nitro trước đó</p>
+        </div>
+    </div>
+
+    <div id="server-boost-info" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Đơn Discord Server Boost được thực hiện như thế nào?</h3>
+            <p><strong>Bước 1:</strong> Bạn cung cấp link mời vào server Discord cần boost</p>
+            <p><strong>Bước 2:</strong> Chúng tôi sẽ join server bằng các tài khoản có sẵn boost</p>
+            <p><strong>Bước 3:</strong> Thực hiện boost server theo số lượng và thời gian đã chọn</p>
+            <p><strong>Bước 4:</strong> Server sẽ được boost trong vòng 24 giờ</p>
+            <p><strong>Lưu ý:</strong> Boost sẽ được duy trì ổn định trong suốt thời gian đã thanh toán</p>
+        </div>
+    </div>
+
+    <div id="chatgpt-info" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Đơn ChatGPT Plus được thực hiện như thế nào?</h3>
+            <p><strong>Gói chính chủ:</strong></p>
+            <p>- Tạo tài khoản mới hoặc nâng cấp tài khoản hiện tại</p>
+            <p>- Bạn sẽ có toàn quyền kiểm soát tài khoản</p>
+            <p><strong>Gói acc cấp:</strong></p>
+            <p>- Cung cấp tài khoản ChatGPT Plus đã được kích hoạt sẵn</p>
+            <p>- Thông tin đăng nhập sẽ được gửi ngay sau khi thanh toán</p>
+            <p>- Bảo hành 30 ngày, hỗ trợ đổi acc nếu có vấn đề</p>
+        </div>
+    </div>
+
+    <div id="minecraft-info" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Đơn Minecraft Premium được thực hiện như thế nào?</h3>
+            <p><strong>Bước 1:</strong> Chúng tôi cung cấp tài khoản Minecraft MFA (Mail Full Access)</p>
+            <p><strong>Bước 2:</strong> Bạn sẽ nhận được thông tin tài khoản và email</p>
+            <p><strong>Bước 3:</strong> Bạn có thể thay đổi toàn bộ thông tin tài khoản</p>
+            <p><strong>Bước 4:</strong> Truy cập email để xác thực và bảo mật</p>
+            <p><strong>Lưu ý:</strong> Tài khoản MFA cho phép bạn kiểm soát hoàn toàn, thay đổi username, password, email. Được bảo hành 7 ngày</p>
+        </div>
+    </div>
+
+    <div id="canva-info" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Đơn Canva Pro được thực hiện như thế nào?</h3>
+            <p><strong>Bước 1:</strong> Bạn cung cấp email muốn kích hoạt Canva Pro</p>
+            <p><strong>Bước 2:</strong> Chúng tôi sẽ gửi lời mời vào team Canva Pro</p>
+            <p><strong>Bước 3:</strong> Bạn chấp nhận lời mời và có ngay quyền truy cập Pro</p>
+            <p><strong>Bước 4:</strong> Sử dụng đầy đủ tính năng Pro theo thời hạn đã chọn</p>
+            <p><strong>Lưu ý:</strong> Bạn sẽ được mời vào team, không phải tài khoản riêng lẻ</p>
+        </div>
+    </div>
+
+    <script>
+        let isReducedEffects = false;
+        let logoFadeTimeout;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            setupPageTurning();
+            setupModalHandlers();
+            setupPerformanceToggle();
+            setupLogoFade();
+            addStaggeredAnimations();
+        });
+
+        // Logo fade effect
+        function setupLogoFade() {
+            const logo = document.getElementById('studioLogo');
+            
+            // Fade after 5 seconds
+            logoFadeTimeout = setTimeout(() => {
+                logo.classList.add('fade-out');
+            }, 5000);
+
+            // Reset on scroll or interaction
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                logo.classList.remove('fade-out');
+                clearTimeout(scrollTimeout);
+                clearTimeout(logoFadeTimeout);
+                
+                scrollTimeout = setTimeout(() => {
+                    logo.classList.add('fade-out');
+                }, 3000);
+            });
+        }
+
+        // Page turning effect
+        function setupPageTurning() {
+            const pages = document.querySelectorAll('.page');
+            let currentPage = 0;
+
+            // Add scroll listener for page turning
+            window.addEventListener('scroll', () => {
+                if (isReducedEffects) return;
+
+                const scrollPosition = window.scrollY;
+                const windowHeight = window.innerHeight;
+                
+                pages.forEach((page, index) => {
+                    const pageTop = page.offsetTop - windowHeight / 2;
+                    const pageBottom = pageTop + page.offsetHeight;
+                    
+                    if (scrollPosition >= pageTop && scrollPosition <= pageBottom) {
+                        if (currentPage !== index) {
+                            // Remove turning effect from all pages
+                            pages.forEach(p => p.classList.remove('turning'));
+                            
+                            // Add turning effect to current page
+                            page.classList.add('turning');
+                            currentPage = index;
+                            
+                            // Remove effect after animation
+                            setTimeout(() => {
+                                page.classList.remove('turning');
+                            }, 800);
+                        }
+                    }
+                });
+            });
+
+            // Click to turn page effect
+            pages.forEach(page => {
+                page.addEventListener('click', function(e) {
+                    if (e.target.closest('.menu-item') || e.target.closest('button')) return;
+                    
+                    if (!isReducedEffects) {
+                        this.classList.add('turning');
+                        setTimeout(() => {
+                            this.classList.remove('turning');
+                        }, 800);
+                    }
+                });
+            });
+        }
+
+        // Modal handlers
+        function setupModalHandlers() {
+            // Close modal when clicking X or outside
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('close') || e.target.classList.contains('modal')) {
+                    const modal = e.target.closest('.modal') || e.target;
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        // Performance toggle
+        function setupPerformanceToggle() {
+            const toggle = document.getElementById('performanceToggle');
+            const body = document.body;
+
+            toggle.addEventListener('click', function() {
+                isReducedEffects = !isReducedEffects;
+                
+                if (isReducedEffects) {
+                    body.classList.add('reduced-effects');
+                    this.innerHTML = '<i class="fas fa-rocket"></i> Bật hiệu ứng';
+                } else {
+                    body.classList.remove('reduced-effects');
+                    this.innerHTML = '<i class="fas fa-tachometer-alt"></i> Giảm hiệu ứng';
+                }
+            });
+        }
+
+        // Staggered animations
+        function addStaggeredAnimations() {
+            const menuItems = document.querySelectorAll('.menu-item');
+            const pages = document.querySelectorAll('.page');
+            
+            // Add slide-in animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInUp {
+                    from {
+                        transform: translateY(50px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                }
+                
+                @keyframes pageSlideIn {
+                    from {
+                        transform: translateX(50px) rotateY(10deg);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0) rotateY(0deg);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Animate pages
+            pages.forEach((page, index) => {
+                page.style.animationDelay = `${index * 0.2}s`;
+                page.style.animation = 'pageSlideIn 0.8s ease forwards';
+            });
+
+            // Animate menu items
+            menuItems.forEach((item, index) => {
+                item.style.animationDelay = `${(index * 0.1) + 0.5}s`;
+                item.style.animation = 'slideInUp 0.6s ease forwards';
+            });
+
+            // Ripple effect
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (e.target.closest('button')) return;
+                    
+                    const rect = this.getBoundingClientRect();
+                    const ripple = document.createElement('div');
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(74, 144, 226, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: rippleEffect 0.6s ease-out;
+                        pointer-events: none;
+                        z-index: 1;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    // Remove ripple after animation
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Add ripple animation
+            const rippleStyle = document.createElement('style');
+            rippleStyle.textContent = `
+                @keyframes rippleEffect {
+                    to {
+                        transform: scale(2);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(rippleStyle);
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect (reduced in reduced-effects mode)
+        window.addEventListener('scroll', () => {
+            if (isReducedEffects) return;
+            
+            const scrolled = window.pageYOffset;
+            const background = document.body;
+            const speed = scrolled * 0.1; // Reduced speed for better performance
+            background.style.transform = `translateY(${speed}px)`;
+        });
+
+        // Intersection Observer for performance
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe all pages and menu items
+        document.querySelectorAll('.page, .menu-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
