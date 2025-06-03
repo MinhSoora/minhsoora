@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ứng dụng Web</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        
+        #mainFrame {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            display: block;
+        }
+        
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            color: #666;
+            z-index: 1000;
+        }
+        
+        .error {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #ff0000;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loadingMsg">Đang tải...</div>
+    <div class="error" id="errorMsg">
+        <h3>Không thể tải nội dung</h3>
+        <p>Vui lòng kiểm tra kết nối mạng và thử lại.</p>
+        <button onclick="reloadFrame()">Tải lại</button>
+    </div>
+    
+    <iframe 
+        id="mainFrame" 
+        src="http://194.164.125.5:6406"
+        frameborder="0"
+        allowfullscreen
+        allow="camera; microphone; fullscreen; clipboard-read; clipboard-write"
+        sandbox="allow-same-origin allow-scripts allow-forms allow-navigation allow-popups allow-modals">
+    </iframe>
+
+    <script>
+        const iframe = document.getElementById('mainFrame');
+        const loadingMsg = document.getElementById('loadingMsg');
+        const errorMsg = document.getElementById('errorMsg');
+        
+        // Xử lý khi iframe load xong
+        iframe.onload = function() {
+            loadingMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            
+            try {
+                // Cố gắng truy cập iframe content để xử lý navigation
+                setupIframeNavigation();
+            } catch (e) {
+                console.log('Cross-origin iframe - navigation handling limited');
+            }
+        };
+        
+        // Xử lý lỗi load iframe
+        iframe.onerror = function() {
+            loadingMsg.style.display = 'none';
+            errorMsg.style.display = 'block';
+        };
+        
+        // Function reload iframe
+        function reloadFrame() {
+            loadingMsg.style.display = 'block';
+            errorMsg.style.display = 'none';
+            iframe.src = iframe.src;
+        }
+        
+        // Xử lý navigation trong iframe
+        function setupIframeNavigation() {
+            // Lắng nghe thay đổi URL trong iframe (nếu có thể)
+            iframe.addEventListener('load', function() {
+                try {
+                    // Đảm bảo tất cả navigation xảy ra trong iframe
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    
+                    // Override window.open trong iframe
+                    if (iframe.contentWindow) {
+                        iframe.contentWindow.open = function(url, name, features) {
+                            // Chuyển hướng trong cùng iframe thay vì mở cửa sổ mới
+                            iframe.src = url;
+                            return null;
+                        };
+                        
+                        // Override location changes
+                        const originalLocation = iframe.contentWindow.location;
+                        Object.defineProperty(iframe.contentWindow, 'location', {
+                            set: function(url) {
+                                iframe.src = url;
+                            },
+                            get: function() {
+                                return originalLocation;
+                            }
+                        });
+                    }
+                } catch (e) {
+                    // Cross-origin restrictions
+                    console.log('Cannot access iframe content due to CORS policy');
+                }
+            });
+        }
+        
+        // Ngăn chặn right-click context menu trên iframe
+        iframe.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Xử lý fullscreen
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // F11 for fullscreen
+            if (e.key === 'F11') {
+                e.preventDefault();
+                toggleFullscreen();
+            }
+            
+            // F5 hoặc Ctrl+R để reload iframe
+            if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+                e.preventDefault();
+                reloadFrame();
+            }
+        });
+        
+        // Ẩn URL gốc bằng cách thay đổi title và URL hiện tại
+        document.title = 'Ứng dụng Web - Hệ thống quản lý';
+        
+        // Thay đổi URL hiển thị (nếu có thể)
+        if (window.history && window.history.pushState) {
+            window.history.pushState({}, document.title, '/app');
+        }
+        
+        // Chặn view source
+        document.addEventListener('keydown', function(e) {
+            // Chặn Ctrl+U (view source)
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Chặn F12 (developer tools)
+            if (e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Chặn Ctrl+Shift+I (developer tools)
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Chặn Ctrl+Shift+C (inspect element)
+            if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Chặn right-click trên toàn trang
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Monitor iframe URL changes (nếu có thể)
+        setInterval(function() {
+            try {
+                if (iframe.contentWindow && iframe.contentWindow.location) {
+                    const currentUrl = iframe.contentWindow.location.href;
+                    if (currentUrl && !currentUrl.includes('194.164.125.5:6406')) {
+                        console.log('URL changed to:', currentUrl);
+                    }
+                }
+            } catch (e) {
+                // Cross-origin restrictions
+            }
+        }, 1000);
+    </script>
+</body>
+  </html>
