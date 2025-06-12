@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cửa Hàng Dịch Vụ Digital</title>
+    <title>Digital Store - Cửa Hàng Số</title>
     <style>
         * {
             margin: 0;
@@ -13,519 +13,764 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1920px;
-            aspect-ratio: 16/9;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
         }
 
         .header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 2vh;
+            padding: 2rem 0;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .header h1 {
-            font-size: clamp(1.5rem, 3vw, 2.5rem);
-            margin-bottom: 0.5vh;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
         }
 
         .header p {
-            font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+            font-size: 1.1rem;
             opacity: 0.9;
         }
 
-        .content {
-            flex: 1;
-            padding: 2vh 2vw;
-            overflow-y: auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2vh;
-            max-height: calc(100% - 12vh);
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
         }
 
         .category {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5vh 1.5vw;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            height: fit-content;
+            margin-bottom: 3rem;
         }
-
-        .category:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-
-        .category-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5vh;
-            padding-bottom: 1vh;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .category-icon {
-            width: 40px;
-            height: 40px;
-            margin-right: 1vw;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .nitro-icon { background: linear-gradient(135deg, #7289da, #5865f2); }
-        .server-icon { background: linear-gradient(135deg, #5865f2, #4f46e5); }
-        .youtube-icon { background: linear-gradient(135deg, #ff0000, #cc0000); }
-        .netflix-icon { background: linear-gradient(135deg, #e50914, #b20710); }
-        .canva-icon { background: linear-gradient(135deg, #00c4cc, #0099a8); }
-        .capcut-icon { background: linear-gradient(135deg, #000000, #333333); }
-        .duolingo-icon { background: linear-gradient(135deg, #58cc02, #4caf50); }
-        .spotify-icon { background: linear-gradient(135deg, #1ed760, #1db954); }
-        .windows-icon { background: linear-gradient(135deg, #0078d4, #106ebe); }
-        .discord-icon { background: linear-gradient(135deg, #7289da, #5865f2); }
-        .service-icon { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
 
         .category-title {
-            font-size: clamp(1rem, 2vw, 1.4rem);
-            font-weight: bold;
+            font-size: 1.8rem;
             color: #2c3e50;
-            flex: 1;
-        }
-
-        .product-list {
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #3498db;
             display: flex;
-            flex-direction: column;
-            gap: 0.8vh;
-        }
-
-        .product-item {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.8vh 1vw;
-            background: #f8f9fa;
+            gap: 0.5rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e1e8ed;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-icon {
+            width: 50px;
+            height: 50px;
             border-radius: 8px;
-            transition: all 0.2s ease;
-            border-left: 3px solid transparent;
+            object-fit: cover;
         }
 
-        .product-item:hover {
-            background: #e3f2fd;
-            border-left-color: #2196f3;
-            transform: translateX(5px);
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
         }
 
-        .product-name {
-            font-size: clamp(0.7rem, 1.2vw, 0.9rem);
-            color: #34495e;
-            flex: 1;
-            font-weight: 500;
+        .product-details {
+            margin-bottom: 1rem;
         }
 
-        .product-price {
-            font-size: clamp(0.7rem, 1.2vw, 0.9rem);
-            font-weight: bold;
+        .duration {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 700;
             color: #e74c3c;
-            background: linear-gradient(135deg, #ff7675, #e17055);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
         }
 
         .contact-item {
-            background: linear-gradient(135deg, #fd79a8, #fdcb6e);
-            color: white;
-            font-weight: bold;
-            text-align: center;
-            padding: 1vh;
-            border-radius: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(253, 121, 168, 0.3);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 1200px) {
-            .content {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 1.5vh;
-            }
+        .special-service {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
         }
 
         @media (max-width: 768px) {
-            .container {
-                aspect-ratio: 9/16;
-                max-height: 95vh;
-            }
-            
-            .content {
+            .products-grid {
                 grid-template-columns: 1fr;
-                gap: 1vh;
             }
             
-            .category-icon {
-                width: 35px;
-                height: 35px;
-                font-size: 16px;
+            .header h1 {
+                font-size: 2rem;
             }
-        }
-
-        /* Custom scrollbar */
-        .content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .content::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-
-        .content::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 4px;
-        }
-
-        .content::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #5a6fd8, #6a4190);
+            
+            .container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>🛒 Digital Store</h1>
+        <p>Cửa hàng số - Uy tín, chất lượng, giá tốt</p>
+    </div>
+
     <div class="container">
-        <div class="header">
-            <h1>🛒 Cửa Hàng Dịch Vụ Digital</h1>
-            <p>Các gói dịch vụ premium với giá ưu đãi nhất thị trường</p>
+        <!-- Nitro Boost -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" width="30" height="30" alt="Discord">
+                Nitro Boost
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Nitro Boost Trial</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 3 tháng</div>
+                        <div class="price">💰 55.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Nitro Boost Login</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 tháng</div>
+                        <div class="price">💰 80.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Nitro Boost - 1 Boost</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 3 tháng</div>
+                        <div class="price">💰 50.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Nitro Boost - 2 Boost</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 3 tháng</div>
+                        <div class="price">💰 95.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Nitro Boost - 4 Boost</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 3 tháng</div>
+                        <div class="price">💰 190.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Nitro Boost - 1 Boost</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 tháng</div>
+                        <div class="price">💰 25.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Nitro Boost - 2 Boost</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 tháng</div>
+                        <div class="price">💰 50.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Nitro Boost - 3 Boost</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 tháng</div>
+                        <div class="price">💰 75.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Nitro Boost - 4 Boost</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 tháng</div>
+                        <div class="price">💰 100.000đ</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div class="content">
-            <!-- Nitro Boost -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon nitro-icon">
-                        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/26a1.png" width="24" height="24" alt="⚡">
-                    </div>
-                    <div class="category-title">Discord Nitro Boost</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">Nitro boost trial – 3 tháng</div>
-                        <div class="product-price">55.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nitro boost login – 1 tháng</div>
-                        <div class="product-price">80.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nitro boost – 1 boost – 3 tháng</div>
-                        <div class="product-price">50.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nitro boost – 2 boost – 3 tháng</div>
-                        <div class="product-price">95.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nitro boost – 4 boost – 3 tháng</div>
-                        <div class="product-price">190.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nitro boost – 1 boost – 1 tháng</div>
-                        <div class="product-price">25.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nitro boost – 2 boost – 1 tháng</div>
-                        <div class="product-price">50.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nitro boost – 3 boost – 1 tháng</div>
-                        <div class="product-price">75.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nitro boost – 4 boost – 1 tháng</div>
-                        <div class="product-price">100.000₫</div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Server Boost -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon server-icon">
-                        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4e1.png" width="24" height="24" alt="📡">
+        <!-- Server Boost -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" width="30" height="30" alt="Discord">
+                Server Boost
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Server Boost - 7 Boost</div>
                     </div>
-                    <div class="category-title">Discord Server Boost</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 3 tháng</div>
+                        <div class="price">💰 650.000đ</div>
+                    </div>
                 </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">Server Boost – 7 boost – 3 tháng</div>
-                        <div class="product-price">650.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Server Boost – 14 boost – 4 tháng</div>
-                        <div class="product-price">1.300.000₫</div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- YouTube Premium -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon youtube-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" width="24" height="24" alt="YouTube">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Server Boost - 14 Boost</div>
                     </div>
-                    <div class="category-title">YouTube Premium</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">1 tháng</div>
-                        <div class="product-price">40.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">3 tháng</div>
-                        <div class="product-price">120.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">6 tháng</div>
-                        <div class="product-price">240.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">12 tháng</div>
-                        <div class="product-price">480.000₫</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 4 tháng</div>
+                        <div class="price">💰 1.300.000đ</div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Netflix Premium -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon netflix-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" width="24" height="24" alt="Netflix">
+        <!-- YouTube Premium -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" width="30" height="30" alt="YouTube">
+                YouTube Premium
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="product-icon">
+                        <div class="product-title">YouTube Premium</div>
                     </div>
-                    <div class="category-title">Netflix Premium</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">1 tháng</div>
-                        <div class="product-price">65.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">3 tháng</div>
-                        <div class="product-price">195.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">6 tháng</div>
-                        <div class="product-price">390.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">12 tháng</div>
-                        <div class="product-price">780.000₫</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 tháng</div>
+                        <div class="price">💰 40.000đ</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Canva Pro -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon canva-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" width="24" height="24" alt="Canva">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="product-icon">
+                        <div class="product-title">YouTube Premium</div>
                     </div>
-                    <div class="category-title">Canva Pro</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">6 tháng</div>
-                        <div class="product-price">100.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">1 năm</div>
-                        <div class="product-price">200.000₫</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 3 tháng</div>
+                        <div class="price">💰 120.000đ</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Capcut Pro -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon capcut-icon">
-                        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3ac.png" width="24" height="24" alt="🎬">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="product-icon">
+                        <div class="product-title">YouTube Premium</div>
                     </div>
-                    <div class="category-title">Capcut Pro</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">1 năm</div>
-                        <div class="product-price">290.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">1 năm (1 ĐT - 1 PC)</div>
-                        <div class="product-price">30.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">6 tháng (2 thiết bị)</div>
-                        <div class="product-price">633.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">28 ngày (Dùng riêng)</div>
-                        <div class="product-price">74.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">2 năm (thiết bị - Hàng đặt trước)</div>
-                        <div class="product-price">350.000₫</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 6 tháng</div>
+                        <div class="price">💰 240.000đ</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Duolingo Super -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon duolingo-icon">
-                        <img src="https://d35aaqx5ub95lt.cloudfront.net/images/owl.svg" width="24" height="24" alt="Duolingo">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="product-icon">
+                        <div class="product-title">YouTube Premium</div>
                     </div>
-                    <div class="category-title">Duolingo Super</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">6 tháng</div>
-                        <div class="product-price">150.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">12 tháng</div>
-                        <div class="product-price">300.000₫</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 12 tháng</div>
+                        <div class="price">💰 480.000đ</div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Spotify Premium -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon spotify-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" width="24" height="24" alt="Spotify">
+        <!-- Netflix Premium -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" width="30" height="30" alt="Netflix">
+                Netflix Premium
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="product-icon">
+                        <div class="product-title">Netflix Premium</div>
                     </div>
-                    <div class="category-title">Spotify Premium</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">Nâng cấp chính chủ - 6 tháng</div>
-                        <div class="product-price">170.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nâng cấp chính chủ - 12 tháng</div>
-                        <div class="product-price">300.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Nâng cấp chính chủ - 24 tháng</div>
-                        <div class="product-price">400.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Acc cáp - 1 tháng</div>
-                        <div class="product-price">45.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Acc cáp - 6 tháng</div>
-                        <div class="product-price">130.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Acc cáp - 12 tháng</div>
-                        <div class="product-price">250.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Acc cáp - 24 tháng</div>
-                        <div class="product-price">400.000₫</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 tháng</div>
+                        <div class="price">💰 65.000đ</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Key Windows -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon windows-icon">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" width="24" height="24" alt="Windows">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="product-icon">
+                        <div class="product-title">Netflix Premium</div>
                     </div>
-                    <div class="category-title">Key Windows</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">10/11 Home</div>
-                        <div class="product-price">100.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">10/11 Pro</div>
-                        <div class="product-price">130.000₫</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 3 tháng</div>
+                        <div class="price">💰 195.000đ</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Account Discord -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon discord-icon">
-                        <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" width="24" height="24" alt="Discord">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="product-icon">
+                        <div class="product-title">Netflix Premium</div>
                     </div>
-                    <div class="category-title">Account Discord</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item">
-                        <div class="product-name">Account 2019</div>
-                        <div class="product-price">150.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Account 2018</div>
-                        <div class="product-price">150.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Account 2017</div>
-                        <div class="product-price">150.000₫</div>
-                    </div>
-                    <div class="product-item">
-                        <div class="product-name">Account 2016</div>
-                        <div class="product-price">150.000₫</div>
-                    </div>
-                    <div class="product-item contact-item">
-                        <div class="product-name">Account 2015 - Liên hệ</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 6 tháng</div>
+                        <div class="price">💰 390.000đ</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Dịch vụ khác -->
-            <div class="category">
-                <div class="category-header">
-                    <div class="category-icon service-icon">
-                        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f6e0.png" width="24" height="24" alt="🛠">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="product-icon">
+                        <div class="product-title">Netflix Premium</div>
                     </div>
-                    <div class="category-title">Dịch Vụ Khác</div>
-                </div>
-                <div class="product-list">
-                    <div class="product-item contact-item">
-                        <div class="product-name">Nhận làm bot Discord - Liên hệ admin</div>
-                    </div>
-                    <div class="product-item contact-item">
-                        <div class="product-name">Nhận build server Discord - Liên hệ admin</div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 12 tháng</div>
+                        <div class="price">💰 780.000đ</div>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Canva Pro -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" width="30" height="30" alt="Canva">
+                Canva Pro
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" alt="Canva" class="product-icon">
+                        <div class="product-title">Canva Pro</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 6 tháng</div>
+                        <div class="price">💰 100.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" alt="Canva" class="product-icon">
+                        <div class="product-title">Canva Pro</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 năm</div>
+                        <div class="price">💰 200.000đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CapCut Pro -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" width="30" height="30" alt="CapCut">
+                CapCut Pro
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
+                        <div class="product-title">CapCut Pro</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 năm</div>
+                        <div class="price">💰 290.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
+                        <div class="product-title">CapCut Pro (1 ĐT - 1 PC)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 năm</div>
+                        <div class="price">💰 30.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
+                        <div class="product-title">CapCut Pro (2 thiết bị)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 6 tháng</div>
+                        <div class="price">💰 633.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
+                        <div class="product-title">CapCut Pro (Dùng riêng)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 28 ngày</div>
+                        <div class="price">💰 74.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
+                        <div class="product-title">CapCut Pro (Hàng đặt trước)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 2 năm</div>
+                        <div class="price">💰 350.000đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Duolingo Super -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://d35aaqx5ub95lt.cloudfront.net/images/87938207afcd509c25e143333bfe29bc.svg" width="30" height="30" alt="Duolingo">
+                Duolingo Super
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://d35aaqx5ub95lt.cloudfront.net/images/87938207afcd509c25e143333bfe29bc.svg" alt="Duolingo" class="product-icon">
+                        <div class="product-title">Duolingo Super</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 6 tháng</div>
+                        <div class="price">💰 150.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://d35aaqx5ub95lt.cloudfront.net/images/87938207afcd509c25e143333bfe29bc.svg" alt="Duolingo" class="product-icon">
+                        <div class="product-title">Duolingo Super</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 12 tháng</div>
+                        <div class="price">💰 300.000đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spotify Premium -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" width="30" height="30" alt="Spotify">
+                Spotify Premium
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
+                        <div class="product-title">Spotify Premium (Nâng cấp chính chủ)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 6 tháng</div>
+                        <div class="price">💰 170.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
+                        <div class="product-title">Spotify Premium (Nâng cấp chính chủ)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 12 tháng</div>
+                        <div class="price">💰 300.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
+                        <div class="product-title">Spotify Premium (Nâng cấp chính chủ)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 24 tháng</div>
+                        <div class="price">💰 400.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
+                        <div class="product-title">Spotify Premium (Acc cáp)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 1 tháng</div>
+                        <div class="price">💰 45.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
+                        <div class="product-title">Spotify Premium (Acc cáp)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 6 tháng</div>
+                        <div class="price">💰 130.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
+                        <div class="product-title">Spotify Premium (Acc cáp)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 12 tháng</div>
+                        <div class="price">💰 250.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
+                        <div class="product-title">Spotify Premium (Acc cáp)</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ 24 tháng</div>
+                        <div class="price">💰 400.000đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Windows -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" width="30" height="30" alt="Windows">
+                Key Windows
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" alt="Windows" class="product-icon">
+                        <div class="product-title">Windows 10/11 Home</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ Vĩnh viễn</div>
+                        <div class="price">💰 100.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" alt="Windows" class="product-icon">
+                        <div class="product-title">Windows 10/11 Pro</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ Vĩnh viễn</div>
+                        <div class="price">💰 130.000đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Discord -->
+        <div class="category">
+            <h2 class="category-title">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" width="30" height="30" alt="Discord">
+                Account Discord
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Account Discord 2019</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ Vĩnh viễn</div>
+                        <div class="price">💰 150.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Account Discord 2018</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ Vĩnh viễn</div>
+                        <div class="price">💰 150.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Account Discord 2017</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ Vĩnh viễn</div>
+                        <div class="price">💰 150.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Account Discord 2016</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ Vĩnh viễn</div>
+                        <div class="price">💰 150.000đ</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-header">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
+                        <div class="product-title">Account Discord 2015</div>
+                    </div>
+                    <div class="product-details">
+                        <div class="duration">⏰ Vĩnh viễn</div>
+                        <div class="price">💰 LIÊN HỆ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dịch vụ đặc biệt -->
+        <div class="special-service">
+            <h3>🤖 Dịch vụ đặc biệt</h3>
+            <div class="contact-item">✅ Nhận làm bot Discord - Liên hệ admin</div>
+            <div class="contact-item">✅ Nhận build server Discord - Liên hệ admin</div>
+        </div>
+
+        <!-- Thông tin liên hệ -->
+        <div class="contact-info">
+            <h3>📞 Thông tin liên hệ</h3>
+            <div class="contact-item">💬 Liên hệ để đặt hàng và nhận tư vấn</div>
+            <div class="contact-item">⚡ Giao hàng nhanh chóng, uy tín</div>
+            <div class="contact-item">🛡️ Bảo hành chu đáo, hỗ trợ 24/7</div>
         </div>
     </div>
+
+    <script>
+        // Thêm hiệu ứng hover cho các card
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Smooth scroll animation
+        window.addEventListener('scroll', function() {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const cardVisible = cardTop < window.innerHeight - 100;
+                
+                if (cardVisible) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Khởi tạo animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
 </body>
-                            </html>
+                    </html>
