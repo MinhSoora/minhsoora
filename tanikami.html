@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc mừng sinh nhật Tani</title>
+    <style>
+        body {
+            background-color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .message {
+            font-size: 24px;
+            line-height: 1.6;
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-in-out;
+            color: #333;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message {
+            color: #333;
+        }
+
+        .redirect-info {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .redirect-info.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message">Halo Tani</div>
+        <div class="message">Chúc mừng sinh nhật nha Tani:D</div>
+        <div class="message">Do là không tặng được bánh sinh nhật</div>
+        <div class="message">Nên tui sẽ làm 1 điều mà 1 người có logic sẽ làm</div>
+        <div class="message">Tặng bánh kem online :D</div>
+        <div class="message">Tui có yêu cầu nho nhỏ là tani cấp quyền microphone nhe rồi thổi vào micro để thổi nến bánh kem:D</div>
+    </div>
+
+    <div class="redirect-info" id="redirectInfo">
+        Đang chuẩn bị chuyển đến trang bánh sinh nhật... 🎂
+    </div>
+
+    <script>
+        const messages = document.querySelectorAll('.message');
+        const redirectInfo = document.getElementById('redirectInfo');
+        let currentIndex = 0;
+
+        function showNextMessage() {
+            if (currentIndex < messages.length) {
+                messages[currentIndex].classList.add('show');
+                currentIndex++;
+                
+                // Thời gian delay giữa các câu (2.5 giây)
+                setTimeout(showNextMessage, 2500);
+            } else {
+                // Sau khi hiển thị hết tất cả câu, đợi 3 giây rồi chuyển hướng
+                setTimeout(() => {
+                    redirectInfo.classList.add('show');
+                    
+                    // Đợi thêm 2 giây để hiển thị thông báo chuyển hướng
+                    setTimeout(() => {
+                        window.location.href = 'https://tanikamibirthday.vercel.app/?name=Tani%20Kami%20%E7%A5%9E%E3%81%AE%E8%B0%B7Vtuber&shared=true';
+                    }, 2000);
+                }, 3000);
+            }
+        }
+
+        // Bắt đầu hiển thị câu đầu tiên sau 1 giây
+        setTimeout(showNextMessage, 1000);
+    </script>
+</body>
+</html>
