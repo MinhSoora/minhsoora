@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tierlist Maker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .controls {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        input, button {
+            padding: 8px 12px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #444;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .tierlist {
+            background-color: #111;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .tier-row {
+            display: flex;
+            min-height: 80px;
+            border-bottom: 2px solid #000;
+        }
+
+        .tier-label {
+            width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #000;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tier-content {
+            flex: 1;
+            background-color: #222;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 10px;
+            min-height: 80px;
+            position: relative;
+        }
+
+        .tier-content.drag-over {
+            background-color: #333;
+        }
+
+        .item {
+            width: 60px;
+            height: 60px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #555;
+            border-radius: 5px;
+            cursor: grab;
+            position: relative;
+        }
+
+        .item:active {
+            cursor: grabbing;
+        }
+
+        .item.dragging {
+            opacity: 0.5;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .item:hover .delete-btn {
+            display: block;
+        }
+
+        .images-pool {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .images-pool h3 {
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .pool-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 100px;
+            padding: 10px;
+            border: 2px dashed #555;
+            border-radius: 5px;
+        }
+
+        .pool-content.drag-over {
+            border-color: #888;
+            background-color: #333;
+        }
+
+        .color-picker {
+            width: 40px;
+            height: 30px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .tier-controls {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+            gap: 5px;
+        }
+
+        .tier-row:hover .tier-controls {
+            display: flex;
+        }
+
+        .tier-controls button {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background-color: #4CAF50;
+        }
+
+        .upload-btn:hover {
+            background-color: #45a049;
+        }
+
+        .save-load-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .clear-btn {
+            background-color: #ff4444;
+        }
+
+        .clear-btn:hover {
+            background-color: #cc3333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tierlist Maker</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="rankName">Tên rank:</label>
+                <input type="text" id="rankName" placeholder="Nhập tên rank">
+            </div>
+            <div class="control-group">
+                <label for="rankColor">Màu rank:</label>
+                <input type="color" id="rankColor" class="color-picker" value="#ff6b6b">
+            </div>
+            <button onclick="addRank()">Thêm Rank</button>
+            
+            <div class="control-group">
+                <label for="imageUpload">Thêm ảnh:</label>
+                <input type="file" id="imageUpload" class="file-input" accept="image/*" multiple>
+                <button class="upload-btn" onclick="document.getElementById('imageUpload').click()">Chọn Ảnh</button>
+            </div>
+        </div>
+
+        <div class="save-load-controls">
+            <button onclick="saveTierlist()">Lưu Tierlist</button>
+            <button onclick="loadTierlist()">Tải Tierlist</button>
+            <button class="clear-btn" onclick="clearTierlist()">Xóa Hết</button>
+        </div>
+
+        <div class="tierlist" id="tierlist">
+            <!-- Các rank sẽ được thêm vào đây -->
+        </div>
+
+        <div class="images-pool">
+            <h3>Kho Ảnh</h3>
+            <div class="pool-content" id="imagesPool" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <!-- Ảnh sẽ được thêm vào đây -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let draggedElement = null;
+        let tierlistData = {
+            ranks: [],
+            images: []
+        };
+
+        // Khởi tạo với một số rank mặc định
+        function initDefaultRanks() {
+            const defaultRanks = [
+                { name: 'S', color: '#ff6b6b' },
+                { name: 'A', color: '#4ecdc4' },
+                { name: 'B', color: '#45b7d1' },
+                { name: 'C', color: '#96ceb4' },
+                { name: 'D', color: '#ffeaa7' }
+            ];
+            
+            defaultRanks.forEach(rank => {
+                tierlistData.ranks.push({
+                    id: Date.now() + Math.random(),
+                    name: rank.name,
+                    color: rank.color,
+                    items: []
+                });
+            });
+            
+            renderTierlist();
+        }
+
+        // Thêm rank mới
+        function addRank() {
+            const rankName = document.getElementById('rankName').value.trim();
+            const rankColor = document.getElementById('rankColor').value;
+            
+            if (!rankName) {
+                alert('Vui lòng nhập tên rank!');
+                return;
+            }
+            
+            tierlistData.ranks.push({
+                id: Date.now(),
+                name: rankName,
+                color: rankColor,
+                items: []
+            });
+            
+            document.getElementById('rankName').value = '';
+            renderTierlist();
+            saveTierlist();
+        }
+
+        // Xóa rank
+        function deleteRank(rankId) {
+            if (confirm('Bạn có chắc muốn xóa rank này?')) {
+                tierlistData.ranks = tierlistData.ranks.filter(rank => rank.id !== rankId);
+                renderTierlist();
+                saveTierlist();
+            }
+        }
+
+        // Render tierlist
+        function renderTierlist() {
+            const tierlistContainer = document.getElementById('tierlist');
+            tierlistContainer.innerHTML = '';
+            
+            tierlistData.ranks.forEach(rank => {
+                const tierRow = document.createElement('div');
+                tierRow.className = 'tier-row';
+                
+                tierRow.innerHTML = `
+                    <div class="tier-label" style="background-color: ${rank.color}">
+                        ${rank.name}
+                        <div class="tier-controls">
+                            <button onclick="deleteRank(${rank.id})">Xóa</button>
+                        </div>
+                    </div>
+                    <div class="tier-content" data-rank-id="${rank.id}" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        ${rank.items.map(item => `
+                            <div class="item" draggable="true" ondragstart="drag(event)" style="background-image: url('${item.src}')" data-item-id="${item.id}">
+                                <button class="delete-btn" onclick="deleteItem('${item.id}')">&times;</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                tierlistContainer.appendChild(tierRow);
+            });
+        }
+
+        // Xử lý upload ảnh
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const files = e.target.files;
+            
+            for (let file of files) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageData = {
+                            id: Date.now() + Math.random(),
+                            src: e.target.result
+                        };
+                        
+                        tierlistData.images.push(imageData);
+                        addImageToPool(imageData);
+                        saveTierlist();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        // Thêm ảnh vào pool
+        function addImageToPool(imageData) {
+            const pool = document.getElementById('imagesPool');
+            const item = document.createElement('div');
+            item.className = 'item';
+            item.draggable = true;
+            item.style.backgroundImage = `url('${imageData.src}')`;
+            item.dataset.itemId = imageData.id;
+            item.ondragstart = drag;
+            item.innerHTML = `<button class="delete-btn" onclick="deleteItem('${imageData.id}')">&times;</button>`;
+            
+            pool.appendChild(item);
+        }
+
+        // Render images pool
+        function renderImagesPool() {
+            const pool = document.getElementById('imagesPool');
+            pool.innerHTML = '';
+            
+            tierlistData.images.forEach(image => {
+                addImageToPool(image);
+            });
+        }
+
+        // Xóa item
+        function deleteItem(itemId) {
+            // Xóa khỏi ranks
+            tierlistData.ranks.forEach(rank => {
+                rank.items = rank.items.filter(item => item.id !== itemId);
+            });
+            
+            // Xóa khỏi images pool
+            tierlistData.images = tierlistData.images.filter(image => image.id !== itemId);
+            
+            renderTierlist();
+            renderImagesPool();
+            saveTierlist();
+        }
+
+        // Drag and drop functions
+        function allowDrop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.add('drag-over');
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.dataset.itemId);
+            draggedElement = ev.target;
+            ev.target.classList.add('dragging');
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.remove('drag-over');
+            
+            const itemId = ev.dataTransfer.getData("text");
+            const targetContainer = ev.currentTarget;
+            
+            if (draggedElement) {
+                draggedElement.classList.remove('dragging');
+            }
+            
+            // Tìm item data
+            let itemData = null;
+            
+            // Tìm trong images pool
+            itemData = tierlistData.images.find(img => img.id == itemId);
+            
+            // Nếu không tìm thấy, tìm trong ranks
+            if (!itemData) {
+                tierlistData.ranks.forEach(rank => {
+                    const found = rank.items.find(item => item.id == itemId);
+                    if (found) {
+                        itemData = found;
+                        // Xóa khỏi rank cũ
+                        rank.items = rank.items.filter(item => item.id != itemId);
+                    }
+                });
+            }
+            
+            if (itemData) {
+                if (targetContainer.id === 'imagesPool') {
+                    // Thả về pool
+                    if (!tierlistData.images.find(img => img.id == itemId)) {
+                        tierlistData.images.push(itemData);
+                    }
+                } else {
+                    // Thả vào rank
+                    const rankId = targetContainer.dataset.rankId;
+                    const rank = tierlistData.ranks.find(r => r.id == rankId);
+                    if (rank && !rank.items.find(item => item.id == itemId)) {
+                        rank.items.push(itemData);
+                        // Xóa khỏi images pool nếu có
+                        tierlistData.images = tierlistData.images.filter(img => img.id != itemId);
+                    }
+                }
+                
+                renderTierlist();
+                renderImagesPool();
+                saveTierlist();
+            }
+            
+            draggedElement = null;
+        }
+
+        // Lưu tierlist vào localStorage
+        function saveTierlist() {
+            try {
+                localStorage.setItem('tierlistData', JSON.stringify(tierlistData));
+                console.log('Đã lưu tierlist');
+            } catch (error) {
+                console.error('Không thể lưu vào localStorage:', error);
+            }
+        }
+
+        // Tải tierlist từ localStorage
+        function loadTierlist() {
+            try {
+                const saved = localStorage.getItem('tierlistData');
+                if (saved) {
+                    tierlistData = JSON.parse(saved);
+                    renderTierlist();
+                    renderImagesPool();
+                    console.log('Đã tải tierlist');
+                } else {
+                    alert('Không có dữ liệu đã lưu!');
+                }
+            } catch (error) {
+                console.error('Không thể tải từ localStorage:', error);
+                alert('Lỗi khi tải dữ liệu!');
+            }
+        }
+
+        // Xóa toàn bộ tierlist
+        function clearTierlist() {
+            if (confirm('Bạn có chắc muốn xóa toàn bộ tierlist?')) {
+                tierlistData = { ranks: [], images: [] };
+                renderTierlist();
+                renderImagesPool();
+                saveTierlist();
+                initDefaultRanks();
+            }
+        }
+
+        // Ngăn drag leave khỏi container
+        document.addEventListener('dragleave', function(e) {
+            if (e.target.classList.contains('drag-over')) {
+                e.target.classList.remove('drag-over');
+            }
+        });
+
+        // Khởi tạo khi trang load
+        window.onload = function() {
+            // Thử tải dữ liệu đã lưu
+            try {
+                const saved = localStorage.getItem('tierlistData');
+                if (saved) {
+                    tierlistData = JSON.parse(saved);
+                    renderTierlist();
+                    renderImagesPool();
+                } else {
+                    initDefaultRanks();
+                }
+            } catch (error) {
+                console.error('Lỗi khi tải dữ liệu:', error);
+                initDefaultRanks();
+            }
+        };
+    </script>
+</body>
+  </html>
