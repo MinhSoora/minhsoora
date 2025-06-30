@@ -17,6 +17,13 @@
             color: #fff;
             min-height: 100vh;
             padding: 20px;
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         .container {
@@ -162,6 +169,7 @@
             cursor: grab;
             transition: all 0.3s ease;
             border: 2px solid transparent;
+            touch-action: none;
         }
 
         .image-item:hover {
@@ -257,12 +265,35 @@
             }
 
             .image-item {
-                width: 60px;
-                height: 60px;
+                width: 70px;
+                height: 70px;
             }
 
             .header h1 {
                 font-size: 2rem;
+            }
+
+            .tier-content {
+                padding: 15px;
+                min-height: 120px;
+            }
+
+            .image-pool {
+                padding: 15px;
+                min-height: 180px;
+            }
+
+            /* Tăng kích thước nút cho touch */
+            .delete-btn {
+                width: 25px;
+                height: 25px;
+                font-size: 14px;
+            }
+
+            .tier-delete {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
             }
         }
     </style>
@@ -426,6 +457,7 @@
 
             // Setup drop zone cho image pool
             setupDropZone(imagePool, 'pool');
+            imagePool.dataset.tierId = 'pool';
         }
 
         function createImageElement(image, inTier = false) {
@@ -444,7 +476,7 @@
             deleteBtn.innerHTML = '×';
             deleteBtn.onclick = () => deleteImage(image.id, inTier);
 
-            // Drag events
+            // Desktop drag events
             img.addEventListener('dragstart', function(e) {
                 e.dataTransfer.setData('text/plain', image.id);
                 img.classList.add('dragging');
@@ -453,6 +485,97 @@
             img.addEventListener('dragend', function() {
                 img.classList.remove('dragging');
             });
+
+            // Touch events for mobile
+            let touchStartPos = { x: 0, y: 0 };
+            let isDragging = false;
+            let dragClone = null;
+
+            img.addEventListener('touchstart', function(e) {
+                const touch = e.touches[0];
+                touchStartPos = { x: touch.clientX, y: touch.clientY };
+                
+                // Ngăn scroll khi bắt đầu kéo
+                setTimeout(() => {
+                    if (isDragging) {
+                        e.preventDefault();
+                    }
+                }, 100);
+            }, { passive: false });
+
+            img.addEventListener('touchmove', function(e) {
+                const touch = e.touches[0];
+                const deltaX = Math.abs(touch.clientX - touchStartPos.x);
+                const deltaY = Math.abs(touch.clientY - touchStartPos.y);
+                
+                // Bắt đầu drag nếu di chuyển đủ xa
+                if (!isDragging && (deltaX > 10 || deltaY > 10)) {
+                    isDragging = true;
+                    img.classList.add('dragging');
+                    
+                    // Tạo clone để hiển thị khi kéo
+                    dragClone = img.cloneNode(true);
+                    dragClone.style.position = 'fixed';
+                    dragClone.style.zIndex = '1000';
+                    dragClone.style.pointerEvents = 'none';
+                    dragClone.style.opacity = '0.8';
+                    dragClone.style.transform = 'scale(1.1)';
+                    document.body.appendChild(dragClone);
+                }
+
+                if (isDragging) {
+                    e.preventDefault();
+                    
+                    // Cập nhật vị trí clone
+                    if (dragClone) {
+                        dragClone.style.left = (touch.clientX - 40) + 'px';
+                        dragClone.style.top = (touch.clientY - 40) + 'px';
+                    }
+
+                    // Highlight drop zones
+                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                    const dropZone = elementBelow?.closest('.tier-content, .image-pool-content');
+                    
+                    // Remove all highlights
+                    document.querySelectorAll('.tier-content, .image-pool-content').forEach(el => {
+                        el.classList.remove('drag-over');
+                    });
+                    
+                    // Add highlight to current drop zone
+                    if (dropZone) {
+                        dropZone.classList.add('drag-over');
+                    }
+                }
+            }, { passive: false });
+
+            img.addEventListener('touchend', function(e) {
+                if (isDragging) {
+                    e.preventDefault();
+                    
+                    const touch = e.changedTouches[0];
+                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                    const dropZone = elementBelow?.closest('.tier-content, .image-pool-content');
+                    
+                    if (dropZone) {
+                        const tierId = dropZone.dataset.tierId || 'pool';
+                        moveImage(image.id, tierId);
+                    }
+                    
+                    // Cleanup
+                    img.classList.remove('dragging');
+                    if (dragClone) {
+                        document.body.removeChild(dragClone);
+                        dragClone = null;
+                    }
+                    
+                    // Remove all highlights
+                    document.querySelectorAll('.tier-content, .image-pool-content').forEach(el => {
+                        el.classList.remove('drag-over');
+                    });
+                }
+                
+                isDragging = false;
+            }, { passive: false });
 
             container.appendChild(img);
             container.appendChild(deleteBtn);
@@ -591,4 +714,4 @@
         }
     </script>
 </body>
-</html>
+    </html>
