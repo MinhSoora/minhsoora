@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đồng hồ OBS - Hồ Chí Minh</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: transparent;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .clock-container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .time {
+            font-size: 48px;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .date {
+            font-size: 24px;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            font-weight: 300;
+        }
+
+        .location {
+            font-size: 14px;
+            color: #cccccc;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .colon {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="time" id="time">00:00:00</div>
+        <div class="date" id="date">01 - 01 - 25</div>
+        <div class="location"></div>
+    </div>
+
+    <script>
+        function updateClock() {
+            // Tạo đối tượng Date với múi giờ Việt Nam (UTC+7)
+            const now = new Date();
+            const vietnamTime = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Ho_Chi_Minh"}));
+            
+            // Lấy giờ, phút, giây
+            const hours = vietnamTime.getHours().toString().padStart(2, '0');
+            const minutes = vietnamTime.getMinutes().toString().padStart(2, '0');
+            const seconds = vietnamTime.getSeconds().toString().padStart(2, '0');
+            
+            // Lấy ngày, tháng, năm
+            const day = vietnamTime.getDate().toString().padStart(2, '0');
+            const month = (vietnamTime.getMonth() + 1).toString().padStart(2, '0');
+            const year = vietnamTime.getFullYear().toString().slice(-2); // 2 số cuối của năm
+            
+            // Cập nhật hiển thị với dấu hai chấm nhấp nháy
+            const timeString = `${hours}<span class="colon">:</span>${minutes}<span class="colon">:</span>${seconds}`;
+            const dateString = `${day} - ${month} - ${year}`;
+            
+            document.getElementById('time').innerHTML = timeString;
+            document.getElementById('date').textContent = dateString;
+        }
+
+        // Cập nhật mỗi giây
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
