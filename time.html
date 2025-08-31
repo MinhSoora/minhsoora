@@ -12,27 +12,23 @@
             font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-end;
             justify-content: center;
             height: 100vh;
             overflow: hidden;
         }
 
         .clock-container {
-            text-align: center;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px 40px;
-            border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            text-align: right;
+            background: transparent;
+            padding: 0;
         }
 
         .time {
             font-size: 48px;
             font-weight: bold;
-            color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            color: #87CEEB;
+            text-shadow: 0 0 10px rgba(135, 206, 235, 0.3);
             margin-bottom: 10px;
             font-family: 'Courier New', monospace;
             letter-spacing: 2px;
@@ -40,14 +36,14 @@
 
         .date {
             font-size: 24px;
-            color: #ffffff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            color: #E6F3FF;
+            text-shadow: 0 0 5px rgba(230, 243, 255, 0.3);
             font-weight: 300;
         }
 
         .location {
             font-size: 14px;
-            color: #cccccc;
+            color: #B0D4F1;
             margin-top: 10px;
             opacity: 0.8;
         }
@@ -66,7 +62,6 @@
     <div class="clock-container">
         <div class="time" id="time">00:00:00</div>
         <div class="date" id="date">01 - 01 - 25</div>
-        <div class="location"></div>
     </div>
 
     <script>
