@@ -50,6 +50,7 @@
             font-weight: 600;
             transition: all 0.3s;
             position: relative;
+            font-size: 14px;
         }
 
         .nav-links a::after {
@@ -432,6 +433,156 @@
             opacity: 1;
             transform: scale(1.2);
         }
+
+        .about-section {
+            background: white;
+            padding: 80px 80px;
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 2;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .about-content p {
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+
+        .about-content strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 80px;
+            color: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 50px auto 0;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(10px);
+        }
+
+        .contact-item i {
+            font-size: 32px;
+            color: white;
+            min-width: 40px;
+        }
+
+        .contact-item-content h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .contact-item-content p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: white;
+            background: white;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                padding: 0 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -439,10 +590,11 @@
         <div class="logo"><i class="fas fa-gamepad"></i> MinhSoora</div>
         <div class="nav-links">
             <a href="#about"><i class="fas fa-home"></i> About</a>
+            <a href="#intro"><i class="fas fa-user"></i> Intro</a>
             <a href="#stats"><i class="fas fa-chart-line"></i> Stats</a>
             <a href="#projects"><i class="fas fa-briefcase"></i> Projects</a>
             <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
-            <a href="#social"><i class="fas fa-share-alt"></i> Social</a>
+            <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
         </div>
     </nav>
 
@@ -468,6 +620,35 @@
             </div>
         </div>
         <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <section class="about-section" id="intro">
+        <h2 style="font-size: 48px; text-align: center; margin-bottom: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            <i class="fas fa-user-circle"></i> Giới Thiệu Bản Thân
+        </h2>
+        <div class="about-content">
+            <p>
+                Xin chào mọi người! Mình là <strong>MinhSoora</strong>, một content creator với hơn 5 năm kinh nghiệm trong lĩnh vực gaming và giáo dục trực tuyến. Hành trình của mình bắt đầu từ niềm đam mê với Minecraft và mong muốn chia sẻ những trải nghiệm thú vị đến với cộng đồng game thủ Việt Nam.
+            </p>
+            <p>
+                Từ những video đầu tiên với chất lượng còn khiêm tốn, mình đã không ngừng học hỏi và phát triển. Qua thời gian, kênh của mình đã phát triển thành một cộng đồng với <strong>hơn 50,000 người theo dõi</strong> trên các nền tảng YouTube, Twitch, và các mạng xã hội khác. Điều này không chỉ là con số, mà là minh chứng cho sự tin tưởng và yêu mến của các bạn dành cho mình.
+            </p>
+            <p>
+                Năm 2022 đánh dấu một bước ngoặt quan trọng khi mình quyết định thành lập <strong>MinhSoora Network</strong> - một máy chủ Minecraft với mục tiêu tạo ra một không gian chơi game lành mạnh, sáng tạo và đầy năng lượng tích cực. Với hơn 5000 người chơi hoạt động thường xuyên, MinhSoora Network đã trở thành ngôi nhà thứ hai của rất nhiều game thủ yêu thích Minecraft.
+            </p>
+            <p>
+                Không dừng lại ở gaming, mình còn mở rộng sang lĩnh vực giáo dục với <strong>Learnix</strong> - một nền tảng học tập trực tuyến ra mắt vào năm 2023. Với kinh nghiệm tự học lập trình và content creation, mình muốn chia sẻ những kiến thức này đến với các bạn trẻ đam mê công nghệ. Cho đến nay, Learnix đã đồng hành cùng hơn 1000 học viên trên hành trình phát triển kỹ năng của họ.
+            </p>
+            <p>
+                Ngoài công việc, mình là một người yêu thích công nghệ, luôn cập nhật những xu hướng mới trong ngành gaming và digital content. Mình tin rằng <strong>sự chân thành, sáng tạo và không ngừng học hỏi</strong> là chìa khóa để thành công trong bất kỳ lĩnh vực nào.
+            </p>
+            <p>
+                Mục tiêu của mình trong tương lai là tiếp tục mở rộng cộng đồng, tạo ra nhiều nội dung chất lượng hơn và góp phần phát triển ngành công nghiệp gaming cũng như giáo dục số tại Việt Nam. Mình mong muốn truyền cảm hứng và hỗ trợ thế hệ trẻ theo đuổi đam mê của mình, giống như những gì mình đã làm được.
+            </p>
+            <p style="text-align: center; margin-top: 40px; font-style: italic; color: #667eea; font-size: 20px;">
+                "Đam mê là ngọn lửa, kiên trì là nhiên liệu!" 🔥
+            </p>
+        </div>
     </section>
 
     <section class="stats" id="stats">
@@ -496,52 +677,6 @@
 
         <div class="chart-container">
             <canvas id="growthChart"></canvas>
-        </div>
-    </section>
-
-    <section class="section" id="about-detail" style="background: #f8f9fa;">
-        <h2><i class="fas fa-user"></i> Giới Thiệu</h2>
-        <div style="max-width: 900px; margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: center;">
-                <div style="text-align: center;">
-                    <div style="width: 250px; height: 250px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 5px; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
-                        <div style="width: 100%; height: 100%; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-user-circle" style="font-size: 120px; color: #667eea;"></i>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h3 style="font-size: 28px; color: #667eea; margin-bottom: 20px;"><i class="fas fa-graduation-cap"></i> Background</h3>
-                    <p style="font-size: 16px; line-height: 1.8; color: #666; margin-bottom: 20px;">
-                        Mình bắt đầu hành trình content creation từ năm 2020 với niềm đam mê về gaming và công nghệ. Qua 4 năm hoạt động, mình đã tích lũy được kinh nghiệm quý báu trong việc tạo nội dung, quản lý cộng đồng và phát triển dự án.
-                    </p>
-                    
-                    <h3 style="font-size: 28px; color: #667eea; margin-bottom: 20px; margin-top: 30px;"><i class="fas fa-heart"></i> Đam Mê</h3>
-                    <p style="font-size: 16px; line-height: 1.8; color: #666; margin-bottom: 20px;">
-                        Mình yêu thích việc kết nối mọi người thông qua gaming, đặc biệt là Minecraft. Ngoài ra, mình còn đam mê lập trình, thiết kế và xây dựng các nền tảng giáo dục để chia sẻ kiến thức với cộng đồng.
-                    </p>
-
-                    <h3 style="font-size: 28px; color: #667eea; margin-bottom: 20px; margin-top: 30px;"><i class="fas fa-bullseye"></i> Mục Tiêu</h3>
-                    <p style="font-size: 16px; line-height: 1.8; color: #666;">
-                        Mục tiêu của mình là xây dựng một cộng đồng gaming và học tập lành mạnh, nơi mọi người có thể cùng nhau phát triển, học hỏi và tận hưởng niềm vui từ công nghệ và trò chơi.
-                    </p>
-
-                    <div style="margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap;">
-                        <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600;">
-                            <i class="fas fa-code"></i> Lập Trình
-                        </span>
-                        <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600;">
-                            <i class="fas fa-gamepad"></i> Gaming
-                        </span>
-                        <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600;">
-                            <i class="fas fa-video"></i> Content Creation
-                        </span>
-                        <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600;">
-                            <i class="fas fa-users"></i> Community Management
-                        </span>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -645,6 +780,79 @@
             </div>
             <div class="faq-answer">
                 <p>Có! Thường xuyên tuyển các bạn trẻ năng động. Theo dõi Facebook và Discord để cập nhật thông tin tuyển dụng mới nhất.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <h2 style="font-size: 48px; text-align: center; margin-bottom: 20px;">
+            <i class="fas fa-paper-plane"></i> Liên Hệ
+        </h2>
+        <p style="text-align: center; font-size: 18px; opacity: 0.9; margin-bottom: 50px;">
+            Hãy kết nối với mình! Mình luôn sẵn sàng lắng nghe ý kiến và hợp tác cùng bạn.
+        </p>
+
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div class="contact-item-content">
+                        <h3>Email</h3>
+                        <p>contact@minhsoora.com</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fab fa-discord"></i>
+                    <div class="contact-item-content">
+                        <h3>Discord</h3>
+                        <p>discord.gg/minhsoora</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="contact-item-content">
+                        <h3>Location</h3>
+                        <p>Việt Nam</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <div class="contact-item-content">
+                        <h3>Response Time</h3>
+                        <p>Trong vòng 24-48 giờ</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Tên của bạn</label>
+                        <input type="text" id="name" name="name" placeholder="Nhập tên của bạn" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" name="email" placeholder="email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject"><i class="fas fa-tag"></i> Chủ đề</label>
+                        <input type="text" id="subject" name="subject" placeholder="Bạn muốn nói gì?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-comment"></i> Tin nhắn</label>
+                        <textarea id="message" name="message" placeholder="Viết tin nhắn của bạn..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Gửi Tin Nhắn
+                    </button>
+                </form>
             </div>
         </div>
     </section>
@@ -856,6 +1064,30 @@
             card.style.transition = 'all 0.6s ease';
             animateOnScroll.observe(card);
         });
+
+        // Contact Form Handler
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission
+            setTimeout(() => {
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Đã gửi thành công!';
+                submitBtn.style.background = '#4caf50';
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.style.background = '';
+                    submitBtn.disabled = false;
+                    this.reset();
+                }, 2000);
+            }, 1500);
+        });
     </script>
 </body>
-                                 </html>
+    </html>
