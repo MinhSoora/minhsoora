@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Store - Cửa Hàng Số</title>
+    <title>MinhSoora - Content Creator & Founder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -13,764 +14,802 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 0;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            padding: 120px 80px 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
         }
 
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
         }
 
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease;
+            position: relative;
+            z-index: 1;
         }
 
-        .container {
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            color: white;
+            animation: fadeInUp 1s ease 0.2s both;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            color: white;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .social-btn {
+            background: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-btn i {
+            font-size: 20px;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .stats {
+            background: white;
+            padding: 80px 80px;
+            margin: 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 1rem;
         }
 
-        .category {
-            margin-bottom: 3rem;
+        .stat-item {
+            animation: fadeInUp 1s ease both;
+            position: relative;
         }
 
-        .category-title {
-            font-size: 1.8rem;
-            color: #2c3e50;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid #3498db;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .stat-item:nth-child(1) { animation-delay: 0.1s; }
+        .stat-item:nth-child(2) { animation-delay: 0.2s; }
+        .stat-item:nth-child(3) { animation-delay: 0.3s; }
+        .stat-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-item i {
+            font-size: 40px;
+            color: #667eea;
+            margin-bottom: 15px;
         }
 
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
+        .stat-item h3 {
+            font-size: 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #e1e8ed;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .product-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .product-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-
-        .product-title {
-            font-size: 1.1rem;
+        .stat-item p {
+            font-size: 16px;
+            color: #666;
             font-weight: 600;
-            color: #2c3e50;
         }
 
-        .product-details {
-            margin-bottom: 1rem;
+        .section {
+            padding: 80px 80px;
+            background: white;
         }
 
-        .duration {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+        .section:nth-child(even) {
+            background: #f8f9fa;
         }
 
-        .price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #e74c3c;
-        }
-
-        .contact-info {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-top: 2rem;
+        .section h2 {
+            font-size: 48px;
+            margin-bottom: 50px;
             text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .contact-info h3 {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .contact-item {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+        .project-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
 
-        .special-service {
-            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .project-card h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .project-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 25px 30px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 15px;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+            transform: translateX(5px);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .faq-icon {
+            font-size: 24px;
+            color: #667eea;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, margin-top 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            margin-top: 15px;
+            opacity: 1;
+        }
+
+        .faq-answer p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            text-align: center;
             color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
+        }
+
+        .chart-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         @media (max-width: 768px) {
-            .products-grid {
+            .hero {
+                padding: 100px 30px 50px;
+            }
+
+            .hero-content h1 {
+                font-size: 48px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 0 30px;
+            }
+
+            .projects-grid {
                 grid-template-columns: 1fr;
+                padding: 0 30px;
             }
-            
-            .header h1 {
-                font-size: 2rem;
+
+            .section {
+                padding: 50px 30px;
             }
-            
-            .container {
-                padding: 1rem;
+
+            nav {
+                padding: 15px 30px;
             }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 14px;
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            z-index: 1;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .scroll-indicator i {
+            font-size: 32px;
+            color: white;
+        }
+
+        .platform-logos {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .platform-logos i {
+            font-size: 48px;
+            color: white;
+            opacity: 0.8;
+            transition: all 0.3s;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .platform-logos i:nth-child(1) { animation-delay: 0s; }
+        .platform-logos i:nth-child(2) { animation-delay: 0.5s; }
+        .platform-logos i:nth-child(3) { animation-delay: 1s; }
+        .platform-logos i:nth-child(4) { animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .platform-logos i:hover {
+            opacity: 1;
+            transform: scale(1.2);
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🛒 Digital Store</h1>
-        <p>Cửa hàng số - Uy tín, chất lượng, giá tốt</p>
-    </div>
-
-    <div class="container">
-        <!-- Nitro Boost -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" width="30" height="30" alt="Discord">
-                Nitro Boost
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Nitro Boost Trial</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 3 tháng</div>
-                        <div class="price">💰 55.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Nitro Boost Login</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 tháng</div>
-                        <div class="price">💰 80.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Nitro Boost - 1 Boost</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 3 tháng</div>
-                        <div class="price">💰 50.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Nitro Boost - 2 Boost</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 3 tháng</div>
-                        <div class="price">💰 95.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Nitro Boost - 4 Boost</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 3 tháng</div>
-                        <div class="price">💰 190.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Nitro Boost - 1 Boost</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 tháng</div>
-                        <div class="price">💰 25.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Nitro Boost - 2 Boost</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 tháng</div>
-                        <div class="price">💰 50.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Nitro Boost - 3 Boost</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 tháng</div>
-                        <div class="price">💰 75.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Nitro Boost - 4 Boost</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 tháng</div>
-                        <div class="price">💰 100.000đ</div>
-                    </div>
-                </div>
-            </div>
+    <nav>
+        <div class="logo"><i class="fas fa-gamepad"></i> MinhSoora</div>
+        <div class="nav-links">
+            <a href="#about"><i class="fas fa-home"></i> About</a>
+            <a href="#stats"><i class="fas fa-chart-line"></i> Stats</a>
+            <a href="#projects"><i class="fas fa-briefcase"></i> Projects</a>
+            <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
+            <a href="#social"><i class="fas fa-share-alt"></i> Social</a>
         </div>
+    </nav>
 
-        <!-- Server Boost -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" width="30" height="30" alt="Discord">
-                Server Boost
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Server Boost - 7 Boost</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 3 tháng</div>
-                        <div class="price">💰 650.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Server Boost - 14 Boost</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 4 tháng</div>
-                        <div class="price">💰 1.300.000đ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- YouTube Premium -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" width="30" height="30" alt="YouTube">
-                YouTube Premium
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="product-icon">
-                        <div class="product-title">YouTube Premium</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 tháng</div>
-                        <div class="price">💰 40.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="product-icon">
-                        <div class="product-title">YouTube Premium</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 3 tháng</div>
-                        <div class="price">💰 120.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="product-icon">
-                        <div class="product-title">YouTube Premium</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 6 tháng</div>
-                        <div class="price">💰 240.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube" class="product-icon">
-                        <div class="product-title">YouTube Premium</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 12 tháng</div>
-                        <div class="price">💰 480.000đ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Netflix Premium -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" width="30" height="30" alt="Netflix">
-                Netflix Premium
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="product-icon">
-                        <div class="product-title">Netflix Premium</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 tháng</div>
-                        <div class="price">💰 65.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="product-icon">
-                        <div class="product-title">Netflix Premium</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 3 tháng</div>
-                        <div class="price">💰 195.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="product-icon">
-                        <div class="product-title">Netflix Premium</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 6 tháng</div>
-                        <div class="price">💰 390.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="product-icon">
-                        <div class="product-title">Netflix Premium</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 12 tháng</div>
-                        <div class="price">💰 780.000đ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Canva Pro -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" width="30" height="30" alt="Canva">
-                Canva Pro
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" alt="Canva" class="product-icon">
-                        <div class="product-title">Canva Pro</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 6 tháng</div>
-                        <div class="price">💰 100.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg" alt="Canva" class="product-icon">
-                        <div class="product-title">Canva Pro</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 năm</div>
-                        <div class="price">💰 200.000đ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CapCut Pro -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" width="30" height="30" alt="CapCut">
-                CapCut Pro
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
-                        <div class="product-title">CapCut Pro</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 năm</div>
-                        <div class="price">💰 290.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
-                        <div class="product-title">CapCut Pro (1 ĐT - 1 PC)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 năm</div>
-                        <div class="price">💰 30.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
-                        <div class="product-title">CapCut Pro (2 thiết bị)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 6 tháng</div>
-                        <div class="price">💰 633.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
-                        <div class="product-title">CapCut Pro (Dùng riêng)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 28 ngày</div>
-                        <div class="price">💰 74.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/capcut-icon.png" alt="CapCut" class="product-icon">
-                        <div class="product-title">CapCut Pro (Hàng đặt trước)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 2 năm</div>
-                        <div class="price">💰 350.000đ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Duolingo Super -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://d35aaqx5ub95lt.cloudfront.net/images/87938207afcd509c25e143333bfe29bc.svg" width="30" height="30" alt="Duolingo">
-                Duolingo Super
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://d35aaqx5ub95lt.cloudfront.net/images/87938207afcd509c25e143333bfe29bc.svg" alt="Duolingo" class="product-icon">
-                        <div class="product-title">Duolingo Super</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 6 tháng</div>
-                        <div class="price">💰 150.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://d35aaqx5ub95lt.cloudfront.net/images/87938207afcd509c25e143333bfe29bc.svg" alt="Duolingo" class="product-icon">
-                        <div class="product-title">Duolingo Super</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 12 tháng</div>
-                        <div class="price">💰 300.000đ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Spotify Premium -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" width="30" height="30" alt="Spotify">
-                Spotify Premium
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
-                        <div class="product-title">Spotify Premium (Nâng cấp chính chủ)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 6 tháng</div>
-                        <div class="price">💰 170.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
-                        <div class="product-title">Spotify Premium (Nâng cấp chính chủ)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 12 tháng</div>
-                        <div class="price">💰 300.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
-                        <div class="product-title">Spotify Premium (Nâng cấp chính chủ)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 24 tháng</div>
-                        <div class="price">💰 400.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
-                        <div class="product-title">Spotify Premium (Acc cáp)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 1 tháng</div>
-                        <div class="price">💰 45.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
-                        <div class="product-title">Spotify Premium (Acc cáp)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 6 tháng</div>
-                        <div class="price">💰 130.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
-                        <div class="product-title">Spotify Premium (Acc cáp)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 12 tháng</div>
-                        <div class="price">💰 250.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" class="product-icon">
-                        <div class="product-title">Spotify Premium (Acc cáp)</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ 24 tháng</div>
-                        <div class="price">💰 400.000đ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Key Windows -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" width="30" height="30" alt="Windows">
-                Key Windows
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" alt="Windows" class="product-icon">
-                        <div class="product-title">Windows 10/11 Home</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ Vĩnh viễn</div>
-                        <div class="price">💰 100.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" alt="Windows" class="product-icon">
-                        <div class="product-title">Windows 10/11 Pro</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ Vĩnh viễn</div>
-                        <div class="price">💰 130.000đ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Account Discord -->
-        <div class="category">
-            <h2 class="category-title">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" width="30" height="30" alt="Discord">
-                Account Discord
-            </h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Account Discord 2019</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ Vĩnh viễn</div>
-                        <div class="price">💰 150.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Account Discord 2018</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ Vĩnh viễn</div>
-                        <div class="price">💰 150.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Account Discord 2017</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ Vĩnh viễn</div>
-                        <div class="price">💰 150.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Account Discord 2016</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ Vĩnh viễn</div>
-                        <div class="price">💰 150.000đ</div>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-header">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg" alt="Discord" class="product-icon">
-                        <div class="product-title">Account Discord 2015</div>
-                    </div>
-                    <div class="product-details">
-                        <div class="duration">⏰ Vĩnh viễn</div>
-                        <div class="price">💰 LIÊN HỆ</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dịch vụ đặc biệt -->
-        <div class="special-service">
-            <h3>🤖 Dịch vụ đặc biệt</h3>
-            <div class="contact-item">✅ Nhận làm bot Discord - Liên hệ admin</div>
-            <div class="contact-item">✅ Nhận build server Discord - Liên hệ admin</div>
-        </div>
-
-        <!-- Thông tin liên hệ -->
-        <div class="contact-info">
-            <h3>📞 Thông tin liên hệ</h3>
-            <div class="contact-item">💬 Liên hệ để đặt hàng và nhận tư vấn</div>
-            <div class="contact-item">⚡ Giao hàng nhanh chóng, uy tín</div>
-            <div class="contact-item">🛡️ Bảo hành chu đáo, hỗ trợ 24/7</div>
-        </div>
-    </div>
-
-    <script>
-        // Thêm hiệu ứng hover cho các card
-        document.querySelectorAll('.product-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px)';
-            });
+    <section class="hero" id="about">
+        <div id="particles-js"></div>
+        <div class="hero-content">
+            <h1>MinhSoora</h1>
+            <p><i class="fas fa-video"></i> Content Creator • <i class="fas fa-rocket"></i> Founder • <i class="fas fa-gamepad"></i> Gamer</p>
+            <p>Xin chào! Mình là MinhSoora, một content creator đam mê tạo ra những nội dung gaming chất lượng và xây dựng cộng đồng. Founder của MinhSoora Network và Learnix - nơi kết nối game thủ và người học trên khắp Việt Nam.</p>
             
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-            });
+            <div class="platform-logos">
+                <i class="fab fa-youtube"></i>
+                <i class="fab fa-twitch"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-facebook"></i>
+            </div>
+
+            <div class="social-links">
+                <a href="#" class="social-btn"><i class="fab fa-youtube"></i> YouTube</a>
+                <a href="#" class="social-btn"><i class="fab fa-twitch"></i> Twitch</a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i> Twitter</a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook"></i> Facebook</a>
+            </div>
+        </div>
+        <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <section class="stats" id="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <i class="fas fa-users"></i>
+                <h3 class="counter" data-target="50000">0</h3>
+                <p>Followers</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-eye"></i>
+                <h3 class="counter" data-target="10000000">0</h3>
+                <p>Total Views</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-video"></i>
+                <h3 class="counter" data-target="500">0</h3>
+                <p>Videos</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-project-diagram"></i>
+                <h3 class="counter" data-target="2">0</h3>
+                <p>Projects</p>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="growthChart"></canvas>
+        </div>
+    </section>
+
+    <section class="section" id="projects">
+        <h2><i class="fas fa-folder-open"></i> Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3><i class="fas fa-cube"></i> MinhSoora Network</h3>
+                <p>Máy chủ Minecraft hàng đầu với hàng nghìn người chơi mỗi ngày. Cung cấp trải nghiệm chơi game độc đáo với Survival, Creative, Skyblock và mini-games.</p>
+                <p style="margin-top: 15px; color: #667eea; font-weight: 600;"><i class="fas fa-gamepad"></i> 5000+ người chơi đang hoạt động</p>
+            </div>
+            
+            <div class="project-card">
+                <h3><i class="fas fa-graduation-cap"></i> Learnix</h3>
+                <p>Nền tảng học tập trực tuyến hiện đại với các khóa học lập trình, thiết kế và kỹ năng số. Phương pháp giảng dạy tương tác và thực hành.</p>
+                <p style="margin-top: 15px; color: #667eea; font-weight: 600;"><i class="fas fa-user-graduate"></i> 1000+ học viên đã tham gia</p>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 80px;"><i class="fas fa-trophy"></i> Achievements</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3><i class="fas fa-medal"></i> Top Gaming Creator</h3>
+                <p>Được công nhận là content creator gaming nổi bật trong cộng đồng Minecraft Việt Nam.</p>
+            </div>
+            
+            <div class="project-card">
+                <h3><i class="fas fa-star"></i> Community Builder</h3>
+                <p>Xây dựng cộng đồng 50,000+ thành viên với môi trường tích cực và năng động.</p>
+            </div>
+            
+            <div class="project-card">
+                <h3><i class="fas fa-handshake"></i> Brand Partnerships</h3>
+                <p>Hợp tác với các thương hiệu công nghệ và gaming hàng đầu tạo ra các campaign hiệu quả.</p>
+            </div>
+            
+            <div class="project-card">
+                <h3><i class="fas fa-bullseye"></i> Educational Impact</h3>
+                <p>Đào tạo và phát triển kỹ năng cho 1000+ học viên qua Learnix.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="faq" style="background: #f8f9fa;">
+        <h2><i class="fas fa-comments"></i> FAQ</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <span><i class="fas fa-question"></i> MinhSoora tạo nội dung gì?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>MinhSoora chuyên tạo nội dung gaming (chủ yếu Minecraft), livestream, tutorial và video giải trí. Nội dung được đăng tải đều đặn trên YouTube, Twitch và các nền tảng mạng xã hội.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <span><i class="fas fa-server"></i> Làm sao để tham gia MinhSoora Network?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Truy cập địa chỉ: play.minhsoora.net trong Minecraft Java Edition. Server hỗ trợ phiên bản từ 1.16 đến 1.20+.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <span><i class="fas fa-book"></i> Learnix dạy những khóa học nào?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Learnix cung cấp khóa học lập trình (Python, JavaScript, Java), thiết kế đồ họa, content creation và kỹ năng số với video chi tiết và bài tập thực hành.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <span><i class="fas fa-calendar-alt"></i> Lịch livestream như thế nào?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Livestream thường xuyên vào tối thứ 3, 5, 7 lúc 20:00 - 22:00 trên Twitch. Thông báo sẽ đăng trên Twitter/X và Facebook trước 1-2 giờ.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <span><i class="fas fa-envelope"></i> Làm sao để hợp tác với MinhSoora?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Liên hệ qua email: contact@minhsoora.com hoặc gửi tin nhắn qua Facebook Page để thảo luận về hợp tác và partnership.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <span><i class="fas fa-user-plus"></i> Có nhận thực tập sinh không?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Có! Thường xuyên tuyển các bạn trẻ năng động. Theo dõi Facebook và Discord để cập nhật thông tin tuyển dụng mới nhất.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="social" style="text-align: center; background: white;">
+        <h2><i class="fas fa-link"></i> Connect With Me</h2>
+        <p style="font-size: 18px; margin-bottom: 40px; color: #666;">Theo dõi để không bỏ lỡ nội dung mới!</p>
+        <div class="social-links">
+            <a href="#" class="social-btn"><i class="fab fa-youtube"></i> YouTube</a>
+            <a href="#" class="social-btn"><i class="fab fa-twitch"></i> Twitch</a>
+            <a href="#" class="social-btn"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="#" class="social-btn"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="#" class="social-btn"><i class="fab fa-discord"></i> Discord</a>
+        </div>
+    </section>
+
+    <footer>
+        <p style="font-size: 14px;"><i class="far fa-copyright"></i> 2024 MinhSoora. All rights reserved.</p>
+        <p style="font-size: 12px; margin-top: 10px; opacity: 0.8;">Made with <i class="fas fa-heart"></i> for the community</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        // Particles.js configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5, random: false },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#ffffff',
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'grab' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 140, line_linked: { opacity: 1 } },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
         });
 
-        // Smooth scroll animation
-        window.addEventListener('scroll', function() {
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                const cardTop = card.getBoundingClientRect().top;
-                const cardVisible = cardTop < window.innerHeight - 100;
-                
-                if (cardVisible) {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
+        // FAQ Toggle
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
                 }
             });
         });
 
-        // Khởi tạo animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 100);
+        // Counter Animation
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    if (target >= 1000000) {
+                        element.textContent = (current / 1000000).toFixed(1) + 'M+';
+                    } else if (target >= 1000) {
+                        element.textContent = Math.floor(current / 1000) + 'K+';
+                    } else {
+                        element.textContent = Math.floor(current);
+                    }
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    if (target >= 1000000) {
+                        element.textContent = (target / 1000000).toFixed(0) + 'M+';
+                    } else if (target >= 1000) {
+                        element.textContent = (target / 1000).toFixed(0) + 'K+';
+                    } else {
+                        element.textContent = target;
+                    }
+                }
+            };
+
+            updateCounter();
+        }
+
+        // Chart.js Growth Chart
+        const ctx = document.getElementById('growthChart').getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(102, 126, 234, 0.5)');
+        gradient.addColorStop(1, 'rgba(118, 75, 162, 0.1)');
+
+        const growthChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+                datasets: [{
+                    label: 'Followers Growth',
+                    data: [5000, 8000, 12000, 18000, 25000, 32000, 38000, 42000, 46000, 50000],
+                    backgroundColor: gradient,
+                    borderColor: '#667eea',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#764ba2',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: { size: 14, weight: 'bold' },
+                            color: '#333'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Community Growth 2024',
+                        font: { size: 18, weight: 'bold' },
+                        color: '#667eea'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value / 1000 + 'K';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Intersection Observer for counters
+        const observerOptions = { threshold: 0.5 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        if (!counter.classList.contains('counted')) {
+                            animateCounter(counter);
+                            counter.classList.add('counted');
+                        }
+                    });
+                }
             });
+        }, observerOptions);
+
+        observer.observe(document.querySelector('.stats'));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animate elements on scroll
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            animateOnScroll.observe(card);
         });
     </script>
 </body>
-                    </html>
+    </html>
